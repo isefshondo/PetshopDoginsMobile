@@ -3,6 +3,7 @@ package com.example.petshopdoginsmobile.ui.components.cards
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -93,6 +94,7 @@ fun CartProductCard(
             .width(cardWidth)
             .heightIn(min = cardHeight)
             .widthIn(max = 360.dp)
+            .border(1.dp, Grey)
     ){
         Row(
             modifier = Modifier
@@ -117,10 +119,12 @@ fun CartProductCard(
                         )
 
                     ){
-                        Text(
-                            text = "-${discount}%",
-                            style = regular12.copy(VibrantBlue)
-                        )
+                        Box(modifier = Modifier.padding(horizontal = 2.dp)){
+                            Text(
+                                text = "-${discount}%",
+                                style = regular12.copy(VibrantBlue)
+                            )
+                        }
                     }
                     Text(
                         text = price.formatToCurrency(),
@@ -168,7 +172,6 @@ fun CartProductCard(
                     QuantitySelector(
                         quantity = quantity,
                         inStock = inStock,
-                        onClickDelete = {}
                     )
                 }
             }
@@ -195,8 +198,7 @@ private fun PreviewCartProductCard() {
 fun QuantitySelector(
     quantity: MutableState<Int>,
     inStock: Int,
-    modifier: Modifier = Modifier,
-    onClickDelete: () -> Unit
+    modifier: Modifier = Modifier
 ){
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -250,5 +252,5 @@ fun QuantitySelector(
 @Composable
 private fun QuantitySelectorPreview() {
     val quantity = remember { mutableStateOf(1) }
-    QuantitySelector(quantity = quantity, inStock = 10, onClickDelete = {})
+    QuantitySelector(quantity = quantity, inStock = 10)
 }
