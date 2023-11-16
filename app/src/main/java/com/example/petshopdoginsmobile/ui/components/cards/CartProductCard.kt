@@ -46,19 +46,15 @@ import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.regular12
+import com.example.petshopdoginsmobile.ui.utils.CardDimensions
+import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
 
 
 /*
 *  Alterar para outro pacote depois
 *  util/NumberExtensions.kt
 */
-import java.text.NumberFormat
-import java.util.Locale
 
-fun Double.formatToCurrency(): String {
-    val ptBr = Locale("pt", "BR")
-    return NumberFormat.getCurrencyInstance(ptBr).format(this)
-}
 
 
 
@@ -73,36 +69,24 @@ fun CartProductCard(
     price: Double
 ){
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-
-    /*
-    *   Larguras do figma
-    *   tela: 360
-    *   card: 333
-    *   %: 92,5%
-    */
-    val cardWidth = screenWidth * 0.925f
-    val cardHeight = screenWidth * 0.36f
-    val cardHorizontalPadding = screenWidth * 0.038f
-    val cardTopPadding = screenWidth * 0.05f
-    val colRightWidth = screenWidth * 0.684f
+    val d = CardDimensions(configuration)
 
     ElevatedCard(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(1.dp),
         modifier = Modifier
-            .width(cardWidth)
-            .heightIn(min = cardHeight)
+            .width(d.cardWidth)
+            .heightIn(min = d.cardHeight)
             .widthIn(max = 360.dp)
             .border(1.dp, Grey)
     ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = cardTopPadding, start = cardHorizontalPadding, end = cardHorizontalPadding)
+                .padding(top = d.cardTopPadding, start = d.cardHorizontalPadding, end = d.cardHorizontalPadding)
         ){
             Column(
-                modifier = Modifier.heightIn(screenWidth * 0.3f),
+                modifier = Modifier.heightIn(d.screenWidth * 0.3f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ){
@@ -134,13 +118,13 @@ fun CartProductCard(
             }
             Column(
                 modifier = Modifier
-                    .width(colRightWidth),
+                    .width(d.colRightWidth),
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.SpaceBetween
             ){
                 Row(
                     modifier = Modifier
-                        .width(colRightWidth)
+                        .width(d.colRightWidth)
                         .padding(start = 10.dp),
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -152,7 +136,7 @@ fun CartProductCard(
                     )
                     Spacer(
                         modifier = Modifier
-                            .width(screenWidth * 0.12f)
+                            .width(d.screenWidth * 0.12f)
                     )
                     IconButton(
                         modifier = Modifier
@@ -167,7 +151,7 @@ fun CartProductCard(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.heightIn(min = screenWidth * 0.083f))
+                Spacer(modifier = Modifier.heightIn(min = d.screenWidth * 0.083f))
                 Row{
                     QuantitySelector(
                         quantity = quantity,
