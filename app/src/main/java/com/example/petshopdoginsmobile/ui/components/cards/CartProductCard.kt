@@ -46,6 +46,21 @@ import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.regular12
 
+
+/*
+*  Alterar para outro pacote depois
+*  util/NumberExtensions.kt
+*/
+import java.text.NumberFormat
+import java.util.Locale
+
+fun Double.formatToCurrency(): String {
+    val ptBr = Locale("pt", "BR")
+    return NumberFormat.getCurrencyInstance(ptBr).format(this)
+}
+
+
+
 @Composable
 fun CartProductCard(
     modifier: Modifier = Modifier,
@@ -108,7 +123,7 @@ fun CartProductCard(
                         )
                     }
                     Text(
-                        text = "R$ $price",
+                        text = price.formatToCurrency(),
                         style = medium14
                     )
                 }
@@ -170,7 +185,7 @@ private fun PreviewCartProductCard() {
         quantity = quantity,
         inStock = 6,
         discount = 20,
-        price = 99.99
+        price = 62.00
     )
 }
 
