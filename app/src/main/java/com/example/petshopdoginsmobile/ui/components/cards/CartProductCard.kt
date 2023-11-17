@@ -1,6 +1,7 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +42,7 @@ import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
 import com.example.petshopdoginsmobile.ui.theme.SoftBlue
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
+import com.example.petshopdoginsmobile.ui.theme.White
 import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.regular12
@@ -72,6 +74,7 @@ fun CartProductCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(White)
                 .padding(top = d.cardTopPadding, start = d.cardHorizontalPadding, end = d.cardHorizontalPadding)
         ){
             Column(
