@@ -8,23 +8,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import com.example.petshopdoginsmobile.R
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.White
 
 @Composable
 fun IconButton(
-    // image: Painter,
-    // onClick: () -> Unit,
+    image: Int,
+    onClick: () -> Unit,
 ) {
     Box (
         modifier = Modifier
@@ -32,7 +31,7 @@ fun IconButton(
             .clip(CircleShape)
             .border(1.dp, Grey, CircleShape)
             .background(White)
-            .clickable {  },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Box (
@@ -42,8 +41,8 @@ fun IconButton(
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.share_icon),
-                contentDescription = "Button's Icon"
+                painter = painterResource(id = image),
+                contentDescription = ""
             )
         }
     }
@@ -53,8 +52,6 @@ fun IconButton(
 @Preview(showBackground = true)
 fun IconButtonPreview() {
     PetshopDoginsMobileTheme {
-        IconButton(
-            // image = painterResource(id = R.drawable.share_icon)
-        )
+        IconButton(image = R.drawable.share_icon, onClick = {})
     }
 }
