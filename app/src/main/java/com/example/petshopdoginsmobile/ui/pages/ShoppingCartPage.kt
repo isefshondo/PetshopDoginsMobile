@@ -66,10 +66,9 @@ fun ShoppingCartPage() {
     }
 
     // criar um estado para armazenar o valor total do carrinho
-    // criar um estado para armazenar o valor total do carrinho
     val totalValue = remember { mutableStateOf(0.0) }
 
-// criar um estado para armazenar o número total de itens
+    // criar um estado para armazenar o número total de itens
     val totalItems = remember { mutableStateOf(items.size) }
 
     // criar um coletor para cada ItemViewModel
