@@ -23,7 +23,7 @@ import com.example.petshopdoginsmobile.ui.theme.White
 
 @Composable
 fun IconButton(
-    image: Painter,
+    // image: Painter,
     // onClick: () -> Unit,
 ) {
     Box (
@@ -42,7 +42,7 @@ fun IconButton(
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = image,
+                painter = painterResource(id = R.drawable.share_icon),
                 contentDescription = "Button's Icon"
             )
         }
@@ -54,7 +54,7 @@ fun IconButton(
 fun IconButtonPreview() {
     PetshopDoginsMobileTheme {
         IconButton(
-            image = painterResource(id = R.drawable.share_icon)
+            // image = painterResource(id = R.drawable.share_icon)
         )
     }
 }
