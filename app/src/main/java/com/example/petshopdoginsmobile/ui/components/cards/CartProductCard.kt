@@ -128,10 +128,6 @@ fun CartProductCard(
                         style = medium14
                     )
                     Text(
-                        text = "${price.value}",
-                        style = medium14
-                    )
-                    Text(
                         text = "${total.value}",
                         style = medium14
                     )
@@ -187,7 +183,7 @@ fun CartProductCard(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCartProductCard() {
+private fun PreviewCartProductCard() {
     val quantity = MutableStateFlow(1)
     val inStock = MutableStateFlow(10)
     val discount = MutableStateFlow(20.0)
@@ -208,7 +204,7 @@ fun PreviewCartProductCard() {
 
 
 @Composable
-fun QuantitySelector(
+private fun QuantitySelector(
     _quantity: MutableStateFlow<Int>,
     _inStock: MutableStateFlow<Int>,
     onQuantityChange: (Int) -> Unit,

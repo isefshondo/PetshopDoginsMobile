@@ -140,7 +140,7 @@ fun OrderSummaryCard(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewOrderSummaryCard() {
+private fun PreviewOrderSummaryCard() {
     val totalItems = remember { mutableStateOf(2) }
     val totalValue = remember { mutableStateOf(200.0) }
     val coupons = remember { mutableStateOf(mapOf<String?, Double>()) }

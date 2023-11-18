@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +32,8 @@ import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingCartPage(){
@@ -59,9 +62,15 @@ fun ShoppingCartPage(){
         ItemViewModel(item)
     }
     // criar um estado para armazenar o valor total do carrinho
-    val totalValue = remember {
-        derivedStateOf {
-            itemViewModels.sumOf { it.total.value }
+    val totalValue = remember { mutableStateOf(0.0) }
+
+    LaunchedEffect(itemViewModels) {
+        itemViewModels.forEach { itemViewModel ->
+            launch {
+                itemViewModel.total.collect { total ->
+                    totalValue.value = itemViewModels.sumOf { it.total.value }
+                }
+            }
         }
     }
     // criar um estado para armazenar o número total de itens
@@ -120,6 +129,6 @@ fun ShoppingCartPage(){
 
 @Preview
 @Composable
-fun ShoppingCartPagePreview(){
+private fun ShoppingCartPagePreview(){
     ShoppingCartPage()
 }
