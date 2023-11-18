@@ -65,6 +65,7 @@ fun CartProductCard(
     _price: MutableStateFlow<Double>,
     _total: MutableStateFlow<Double>,
     onQuantityChange: (Int) -> Unit,
+    onRemove: () -> Unit
 ){
     val configuration = LocalConfiguration.current
     val d = CardDimensions(configuration)
@@ -160,7 +161,7 @@ fun CartProductCard(
                             .border(1.dp, Grey, RoundedCornerShape(5.dp))
                             .size(22.dp)
                             .padding(4.dp),
-                        onClick = { /*TODO*/ }
+                        onClick = onRemove
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete),
@@ -198,7 +199,8 @@ private fun PreviewCartProductCard() {
         _discount = discount,
         _price = price,
         _total = total,
-        onQuantityChange = item::updateQuantity
+        onQuantityChange = item::updateQuantity,
+        onRemove = {}
     )
 }
 
