@@ -23,6 +23,7 @@ import com.example.petshopdoginsmobile.ui.theme.White
 @Composable
 fun IconButton(
     image: Int,
+    imageDescription: String,
     onClick: () -> Unit,
 ) {
     Box (
@@ -42,7 +43,7 @@ fun IconButton(
         ) {
             Image(
                 painter = painterResource(id = image),
-                contentDescription = ""
+                contentDescription = imageDescription
             )
         }
     }
@@ -52,6 +53,6 @@ fun IconButton(
 @Preview(showBackground = true)
 fun IconButtonPreview() {
     PetshopDoginsMobileTheme {
-        IconButton(image = R.drawable.share_icon, onClick = {})
+        IconButton(image = R.drawable.share_icon, imageDescription = "Share Button", onClick = {})
     }
 }

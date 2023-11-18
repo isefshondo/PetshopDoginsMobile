@@ -71,7 +71,7 @@ fun VisualizeProductCard() {
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.TopCenter,
                         ) {
-                            IconButton(image = R.drawable.share_icon, onClick = {})
+                            IconButton(image = R.drawable.share_icon, imageDescription = "Share Button", onClick = {})
                         }
                     }
                     Box (
@@ -99,7 +99,7 @@ fun VisualizeProductCard() {
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.TopCenter
                         ) {
-                            IconButton(image = R.drawable.share_icon, onClick = {})
+                            IconButton(image = R.drawable.heart_icon, imageDescription = "Like Button", onClick = {})
                         }
                     }
                 }
