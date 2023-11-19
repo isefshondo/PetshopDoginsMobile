@@ -16,6 +16,9 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,18 +33,26 @@ import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.utils.CardDimensions
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 @Composable
 fun OrderSummaryCard(
-    totalItems: MutableState<Int>,
-    totalValue: MutableState<Double>,
+    totalItems: State<Int>,
+    totalValue: State<Double>,
     shippingCost: Double,
-    coupons: MutableState<Map<String?, Int>>,
+    coupons: MutableState<Map<String?, Double>>,
     couponDiscount: (String?, Double) -> Double
 ){
     val configuration = LocalConfiguration.current
     val d = CardDimensions(configuration)
+
+    val total = remember {
+        derivedStateOf {
+            totalValue.value + shippingCost - couponDiscount(coupons.value.keys.firstOrNull(), totalValue.value)
+        }
+    }
+
 
     ElevatedCard(
         shape = RoundedCornerShape(10.dp),
@@ -119,7 +130,7 @@ fun OrderSummaryCard(
                     style = medium14
                 )
                 Text(
-                    text = totalValue.value.formatToCurrency(),
+                    text = total.value.formatToCurrency(),
                     style = medium14
                 )
             }
@@ -127,21 +138,20 @@ fun OrderSummaryCard(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun PreviewOrderSummaryCard() {
-    val totalItems = remember { mutableStateOf(5) }
-    val totalValue = remember { mutableStateOf(100.0) }
-    val shippingCost = 0.0
-    //val coupons = remember { mutableStateOf(mapOf<String?, Int>("Coupon1" to 10)) }
-    val coupons = remember { mutableStateOf(mapOf<String?, Int>()) }
+private fun PreviewOrderSummaryCard() {
+    val totalItems = remember { mutableStateOf(2) }
+    val totalValue = remember { mutableStateOf(200.0) }
+    val coupons = remember { mutableStateOf(mapOf<String?, Double>()) }
     val couponDiscount: (String?, Double) -> Double = { _, _ -> 0.0 }
 
     OrderSummaryCard(
         totalItems = totalItems,
         totalValue = totalValue,
-        shippingCost = shippingCost,
+        shippingCost = 10.0,
         coupons = coupons,
         couponDiscount = couponDiscount
     )
 }
+

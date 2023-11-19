@@ -26,6 +26,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
@@ -48,19 +51,34 @@ import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.CardDimensions
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
+import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun CartProductCard(
     modifier: Modifier = Modifier,
     image: Painter,
     title: String,
-    quantity: MutableState<Int>,
-    inStock: Int,
-    discount: Int,
-    price: Double
+    _quantity: MutableStateFlow<Int>,
+    _inStock: MutableStateFlow<Int>,
+    _discount: MutableStateFlow<Double>,
+    _price: MutableStateFlow<Double>,
+    _total: MutableStateFlow<Double>,
+    onQuantityChange: (Int) -> Unit,
+    onRemove: () -> Unit
 ){
     val configuration = LocalConfiguration.current
     val d = CardDimensions(configuration)
+    val quantity = _quantity.collectAsState()
+    val inStock = _inStock.collectAsState()
+    val discount = _discount.collectAsState()
+    val price = _price.collectAsState()
+    val total = _total.collectAsState()
+    val formattedPrice = remember {
+        derivedStateOf {
+            price.value.formatToCurrency() // price é um StateFlow<Double>
+        }
+    }
 
     ElevatedCard(
         shape = RoundedCornerShape(10.dp),
@@ -75,7 +93,11 @@ fun CartProductCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(White)
-                .padding(top = d.cardTopPadding, start = d.cardHorizontalPadding, end = d.cardHorizontalPadding)
+                .padding(
+                    top = d.cardTopPadding,
+                    start = d.cardHorizontalPadding,
+                    end = d.cardHorizontalPadding
+                )
         ){
             Column(
                 modifier = Modifier.heightIn(d.screenWidth * 0.3f),
@@ -97,13 +119,17 @@ fun CartProductCard(
                     ){
                         Box(modifier = Modifier.padding(horizontal = 2.dp)){
                             Text(
-                                text = "-${discount}%",
+                                text = "-${discount.value}%",
                                 style = regular12.copy(VibrantBlue)
                             )
                         }
                     }
                     Text(
-                        text = price.formatToCurrency(),
+                        text = formattedPrice.value,
+                        style = medium14
+                    )
+                    Text(
+                        text = "${total.value}",
                         style = medium14
                     )
                 }
@@ -135,7 +161,7 @@ fun CartProductCard(
                             .border(1.dp, Grey, RoundedCornerShape(5.dp))
                             .size(22.dp)
                             .padding(4.dp),
-                        onClick = { /*TODO*/ }
+                        onClick = onRemove
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete),
@@ -146,36 +172,49 @@ fun CartProductCard(
                 Spacer(modifier = Modifier.heightIn(min = d.screenWidth * 0.083f))
                 Row{
                     QuantitySelector(
-                        quantity = quantity,
-                        inStock = inStock,
+                        _quantity = MutableStateFlow(quantity.value),
+                        _inStock = MutableStateFlow(inStock.value),
+                        onQuantityChange = onQuantityChange
                     )
                 }
             }
         }
     }
 }
-@Preview
+
+@Preview(showBackground = true)
 @Composable
 private fun PreviewCartProductCard() {
-    val quantity = remember { mutableStateOf(1) }
+    val quantity = MutableStateFlow(1)
+    val inStock = MutableStateFlow(10)
+    val discount = MutableStateFlow(20.0)
+    val price = MutableStateFlow(49.90)
+    val total = MutableStateFlow(0.0)
+    val item: ItemViewModel = viewModel()
     CartProductCard(
         image = painterResource(id = R.drawable.img_cat),
         title = "Fantasia para Gatos de Unicórnio e Leão Fantasia para Gatos de Unicórnio",
-        quantity = quantity,
-        inStock = 6,
-        discount = 20,
-        price = 62.00
+        _quantity = quantity,
+        _inStock = inStock,
+        _discount = discount,
+        _price = price,
+        _total = total,
+        onQuantityChange = item::updateQuantity,
+        onRemove = {}
     )
 }
 
 
-
 @Composable
-fun QuantitySelector(
-    quantity: MutableState<Int>,
-    inStock: Int,
+private fun QuantitySelector(
+    _quantity: MutableStateFlow<Int>,
+    _inStock: MutableStateFlow<Int>,
+    onQuantityChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ){
+    val quantity = _quantity.collectAsState()
+    val inStock = _inStock.collectAsState()
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -187,8 +226,8 @@ fun QuantitySelector(
         IconButton(
             modifier = Modifier.width(22.dp),
             onClick = {
-                if(quantity.value < inStock)
-                    quantity.value++
+                if(quantity.value < inStock.value)
+                    onQuantityChange(quantity.value + 1)
             }
         ) {
             Icon(
@@ -211,7 +250,7 @@ fun QuantitySelector(
             modifier = Modifier.width(22.dp),
             onClick = {
                 if (quantity.value > 0)
-                    quantity.value--
+                    onQuantityChange(quantity.value - 1)
             }
         ) {
             Icon(
@@ -223,10 +262,12 @@ fun QuantitySelector(
         }
     }
 }
-
+/*
 @Preview
 @Composable
 private fun QuantitySelectorPreview() {
-    val quantity = remember { mutableStateOf(1) }
-    QuantitySelector(quantity = quantity, inStock = 10)
+    val quantity = remember { MutableStateFlow(1) }
+    QuantitySelector(quantity = quantity, inStock = MutableStateFlow(10))
 }
+
+ */
