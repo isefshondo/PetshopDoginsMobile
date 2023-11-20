@@ -235,7 +235,7 @@ fun VisualizeProductCard() {
             }
             Box (
                 modifier = Modifier
-                    .padding(vertical = 15.dp)
+                    .padding(top = 15.dp)
                     .fillMaxWidth(),
             ) {
                 Box (
