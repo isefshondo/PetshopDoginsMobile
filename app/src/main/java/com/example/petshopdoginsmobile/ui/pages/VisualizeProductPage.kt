@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,159 +48,42 @@ import com.example.petshopdoginsmobile.ui.theme.medium14
 
 @Composable
 fun VisualizeProductPage() {
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Column {
+        Column (
+            modifier = Modifier.fillMaxWidth()
+                .weight(.25F)
+                .background(Color.Yellow),
+        ) {
+
+        }
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp, bottom = 15.dp)
-                .padding(horizontal = 20.dp)
-                .verticalScroll(rememberScrollState())
+                .weight(2F)
+                .background(Color.Red),
         ) {
             VisualizeProductCard()
         }
         Column (
             modifier = Modifier
-                .background(Color.Red)
                 .fillMaxWidth()
+                .weight(.25F)
+                .background(Color.Blue),
         ) {
-            Column {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box {
-                        Text(buildAnnotatedString {
-                            withStyle(SpanStyle(color = GreyDarkier, textDecoration = TextDecoration.LineThrough)) {
-                                append("R$ 163,90")
-                            }
-                        }, style = medium12)
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Box (
-                        modifier = Modifier
-                            .background(color = SoftBlue, shape = RoundedCornerShape(5.dp))
-                            .padding(horizontal = 5.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(buildAnnotatedString {
-                            withStyle(SpanStyle(color = VibrantBlue)) {
-                                append("-20%")
-                            }
-                        }, style = regular12)
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Box (
-                        modifier = Modifier
-                            .size(15.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.info_icon),
-                            contentDescription = "Information Icon",
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                }
-                Row {
-                    Text(buildAnnotatedString {
-                        withStyle(SpanStyle(color = VibrantBlue)) {
-                            append("R$ 153,91")
-                        }
-                    }, style = medium20)
-                }
-            }
-        }
-        Column {
-            Column  {
-                Text(buildAnnotatedString {
-                    withStyle(SpanStyle(color = GreyDarkier)) {
-                        append("Tamanhos")
-                    }
-                }, style = medium20)
-                Row {
-                    Box (
-                        modifier = Modifier
-                            .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
-                            .size(48.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "P".uppercase(), style = medium14)
-                    }
-                    Box (
-                        modifier = Modifier
-                            .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
-                            .size(48.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "M".uppercase(), style = medium14)
-                    }
-                    Box (
-                        modifier = Modifier
-                            .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
-                            .size(48.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "G".uppercase(), style = medium14)
-                    }
-                }
-            }
-            Column  {
-                Text(buildAnnotatedString {
-                    withStyle(SpanStyle(color = GreyDarkier)) {
-                        append("Variações")
-                    }
-                }, style = medium20)
-                Row {
-                    Box (
-                        modifier = Modifier
-                            .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
-                            .padding(horizontal = 20.dp, vertical = 12.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Unicórnio", style = medium14)
-                    }
-                    Box (
-                        modifier = Modifier
-                            .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
-                            .padding(horizontal = 20.dp, vertical = 12.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Leão", style = medium14)
-                    }
-                }
-            }
-            Column  {
-                Text(buildAnnotatedString {
-                    withStyle(SpanStyle(color = GreyDarkier)) {
-                        append("Quantidade")
-                    }
-                }, style = medium20)
-                Row {
-                    
-                }
-            }
-        }
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(98.dp)
-                .padding(16.dp)
-        ) {
-            Box (
-                modifier = Modifier
-                    .fillMaxSize()
+            Row (
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Box (
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(10.dp))
                         .background(color = SoftBlue, shape = RoundedCornerShape(10.dp))
                         .clickable { },
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Text(text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = BlueDark)) {
+                    Text(buildAnnotatedString {
+                        withStyle(SpanStyle(BlueDark)) {
                             append("Comprar")
                         }
                     }, style = medium20)
