@@ -1,19 +1,21 @@
 package com.example.petshopdoginsmobile.model.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "products")
 data class Product(
-    val id: String? = null,
-    val productCategory: String,
-    val productColor: String,
-    val productDescription: String,
-    val productImages: List<ProductImage>, //should be binary
-    val brandName: String,
-    val productPrice: Double,
-    val productStock: Int,
-    val size: String,
-    val productName: String,
+    @PrimaryKey val id: String? = null,
+    @ColumnInfo(name = "productCategory") val productCategory: String?,
+    @ColumnInfo(name = "productColor") val productColor: String?,
+    @ColumnInfo(name = "productDescription") val productDescription: String?,
+    @ColumnInfo(name = "productImages") val productImages: List<ProductImage>,
+    @ColumnInfo(name = "brandName") val brandName: String?,
+    @ColumnInfo(name = "productPrice") val productPrice: Double?,
+    @ColumnInfo(name = "productStock") val productStock: Int?,
+    @ColumnInfo(name = "size") val size: String?,
+    @ColumnInfo(name = "productName") val productName: String?
 )
 
-data class ProductImage(
-    val type: Long,
-    val data: String,
-)
