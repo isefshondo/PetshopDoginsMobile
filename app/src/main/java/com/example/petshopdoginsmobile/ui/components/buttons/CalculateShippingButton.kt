@@ -28,56 +28,39 @@ import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
+import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.regular14
 
 @Composable
-fun CalculateShippingButton() {
-    Box (
+fun CalculateShippingButton(onClick: () -> Unit) {
+    Row (
         modifier = Modifier
-            .border(
-                width = 1.dp,
-                color = Grey,
-                shape = RoundedCornerShape(10.dp)
-            )
-            .clip(RoundedCornerShape(10.dp))
+            .border(width = 1.dp, color = Grey, shape = RoundedCornerShape(10.dp))
             .padding(horizontal = 20.dp, vertical = 15.dp)
             .fillMaxWidth()
-            .clickable {  },
+            .clickable { onClick() },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Row {
-                Box (
-                    modifier = Modifier
-                        .size(20.dp),
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.calculator_icon),
-                        contentDescription = "Calculator Icon",
-                        modifier = Modifier
-                            .fillMaxSize(),
-                    )
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-                Box (
-                    contentAlignment = Alignment.CenterStart,
-                ) {
-                    Text(text = "Calcular seu frete", style = regular14)
-                }
+            Box (modifier = Modifier.size(20.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.calculator_icon),
+                    contentDescription = "Calculator Icon",
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
-            Row {
-                Box (
-                    contentAlignment = Alignment.CenterStart,
-                ) {
-                    Text(text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = BlueDark)) {
-                            append("Grátis >".uppercase())
-                        }
-                    }, style = regular14)
+            Text(text = "Calcular seu frete", style = regular14)
+        }
+        Row {
+            Text(buildAnnotatedString {
+                withStyle(SpanStyle(color = VibrantBlue)) {
+                    append("GRÁTIS >")
                 }
-            }
+            }, style = regular14)
         }
     }
 }
@@ -86,6 +69,6 @@ fun CalculateShippingButton() {
 @Preview(showBackground = true)
 fun CalculateShippingButtonPreview() {
     PetshopDoginsMobileTheme {
-        CalculateShippingButton()
+        CalculateShippingButton(onClick = {})
     }
 }

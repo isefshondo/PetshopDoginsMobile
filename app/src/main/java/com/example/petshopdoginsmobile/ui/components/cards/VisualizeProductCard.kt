@@ -193,8 +193,7 @@ fun VisualizeProductCard() {
                     Box (
                         modifier = Modifier
                             .weight(1F)
-                            .fillMaxHeight()
-                            .background(Blue),
+                            .fillMaxHeight(),
                     ) {
                         Box (
                             modifier = Modifier
@@ -207,22 +206,19 @@ fun VisualizeProductCard() {
                     Box (
                         modifier = Modifier
                             .weight(3F)
-                            .fillMaxHeight()
-                            .background(Color.Red),
+                            .fillMaxHeight(),
                         contentAlignment = Alignment.Center,
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.img_cat),
                             contentDescription = "Image of product",
-                            modifier = Modifier
-                                .fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                         )
                     }
                     Box (
                         modifier = Modifier
                             .weight(1F)
-                            .fillMaxHeight()
-                            .background(Color.Yellow)
+                            .fillMaxHeight(),
                     ) {
                         Box (
                             modifier = Modifier

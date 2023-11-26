@@ -44,31 +44,46 @@ import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.R
+import com.example.petshopdoginsmobile.ui.components.cards.ProductInfoCard
 import com.example.petshopdoginsmobile.ui.theme.medium14
 
 @Composable
 fun VisualizeProductPage() {
+    val availableSizes = listOf<String>("P", "M", "G");
+    val availableVariations = listOf<String>("Unicórnio", "Leão")
+
     Column {
+        // Header
         Column (
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(.25F)
                 .background(Color.Yellow),
         ) {
-
+            // Here comes the Header
         }
+        // Visualize product and its info
         Column (
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2F)
-                .background(Color.Red),
+                .verticalScroll(rememberScrollState()),
         ) {
-            VisualizeProductCard()
+            Row (
+                modifier = Modifier
+                    .padding(horizontal = 20.dp, vertical = 29.dp)
+            ) {
+                VisualizeProductCard()
+            }
+            Row {
+                ProductInfoCard(productPrice = 163.90f, discountValue = 20f, availableSizes, availableVariations, availableProductQt = 5)
+            }
         }
+        // Buy Button Column
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(.25F)
-                .background(Color.Blue),
+                .weight(.25F),
         ) {
             Row (
                 modifier = Modifier.padding(16.dp),

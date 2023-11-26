@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,21 +30,18 @@ fun IconButton(
     Box (
         modifier = Modifier
             .size(50.dp)
-            .clip(CircleShape)
             .border(1.dp, Grey, CircleShape)
-            .background(White)
             .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Box (
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(CircleShape),
+            modifier = Modifier.size(30.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = image),
-                contentDescription = imageDescription
+                painterResource(id = image),
+                contentDescription = imageDescription,
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
