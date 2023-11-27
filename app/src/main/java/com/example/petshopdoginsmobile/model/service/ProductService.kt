@@ -20,7 +20,6 @@ interface ProductService {
     @GET("/dogins/products/{id}/quantity")
     fun getProductQuantity(@Path("id") id: String): Call<Int>
 
-    //temporary patch
     @PATCH("/dogins/products")
     fun updateProductFields(@Body fields: List<Update>): Call<ResponseBody>
 }

@@ -4,17 +4,29 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
+import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.Update
 import com.example.petshopdoginsmobile.model.retrofit.ApiClient
+import com.example.petshopdoginsmobile.model.room.getDatabase
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
+import com.practice.offlinecaching.ProductRepository
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +44,47 @@ class MainActivity : ComponentActivity() {
                 ) {
                     MyScreenContent()
                 }
+            }
+        }
+
+        val database = getDatabase(this)
+        var productRepository = ProductRepository(database)
+
+        lifecycleScope.launch {
+            val productList = productRepository.getListOfProducts()
+            // Agora você pode usar productList para atualizar sua UI
+            setContent {
+                PetshopDoginsMobileTheme {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        LazyColumn {
+                            items(productList) { product ->
+                                ProductComposable(product)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun ProductComposable(product: Product) {
+        Card(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(text = product.productName ?: "", style = MaterialTheme.typography.bodyLarge)
+                Text(text = "Preço: ${product.productPrice ?: 0.0}")
+                Text(text = "Estoque: ${product.productStock ?: 0}")
+                // Adicione mais campos conforme necessário
             }
         }
     }
