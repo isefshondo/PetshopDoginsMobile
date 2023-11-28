@@ -7,22 +7,26 @@ import androidx.room.RoomDatabase
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.ProductImage
 
-@Database(entities = [Product::class, ProductImage::class], version = 1, exportSchema = false)
+@Database(entities = [Product::class, ProductImage::class],
+    version = 1,
+    exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
-}
 
-private lateinit var INSTANCE : AppDatabase
-
-fun getDatabase(context: Context):AppDatabase
-{
-    if(!::INSTANCE.isInitialized)
-    {
-        INSTANCE=
-            Room.databaseBuilder(context.applicationContext,AppDatabase::class.java,"cars_database")
-                .fallbackToDestructiveMigration().build()
+    companion object {
+        @Volatile
+        var INSTANCE: AppDatabase? = null
+        fun getDatabase(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context,
+                    AppDatabase::class.java,
+                    "dogin"
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
+        }
 
     }
-    return INSTANCE
 }
-

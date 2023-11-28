@@ -23,7 +23,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.Update
 import com.example.petshopdoginsmobile.model.retrofit.ApiClient
-import com.example.petshopdoginsmobile.model.room.getDatabase
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.practice.offlinecaching.ProductRepository
 import kotlinx.coroutines.launch
@@ -43,29 +42,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MyScreenContent()
-                }
-            }
-        }
-
-        val database = getDatabase(this)
-        var productRepository = ProductRepository(database)
-
-        lifecycleScope.launch {
-            val productList = productRepository.getListOfProducts()
-            // Agora você pode usar productList para atualizar sua UI
-            setContent {
-                PetshopDoginsMobileTheme {
-                    // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        LazyColumn {
-                            items(productList) { product ->
-                                ProductComposable(product)
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -211,29 +187,29 @@ class MainActivity : ComponentActivity() {
         //val listProduct = listProduto.map { listaCarrinho-> Update(listaCarrinho.id,listaCarrinho.productStock ) }
 
 
-        Button(onClick = {
-            val call = ApiClient.apiService.updateProductFields(listProduto)
-
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    if (response.isSuccessful) {
-                        val resBody = response.body()
-                        Log.i("Respsta", resBody.toString())
-                    } else {
-                        val error = response.errorBody()
-                        Log.i("Erro bo body", error.toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.i("Catch ERRO na call", t.message ?: "Unknown error")
-                }
-            })
-        }) {
-            Text(text = "Botao")
-        }
+//        Button(onClick = {
+//            val call = ApiClient.apiService.updateProductFields(listProduto)
+//
+//            call.enqueue(object : Callback<ResponseBody> {
+//                override fun onResponse(
+//                    call: Call<ResponseBody>,
+//                    response: Response<ResponseBody>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        val resBody = response.body()
+//                        Log.i("Respsta", resBody.toString())
+//                    } else {
+//                        val error = response.errorBody()
+//                        Log.i("Erro bo body", error.toString())
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    Log.i("Catch ERRO na call", t.message ?: "Unknown error")
+//                }
+//            })
+//        }) {
+//            Text(text = "Botao")
+//        }
     }
 }
