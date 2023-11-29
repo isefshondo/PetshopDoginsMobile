@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -51,6 +52,7 @@ import com.example.petshopdoginsmobile.ui.theme.medium14
 fun VisualizeProductPage() {
     val availableSizes = listOf<String>("P", "M", "G");
     val availableVariations = listOf<String>("Unicórnio", "Leão")
+    val productImages = listOf<Painter>(painterResource(id = R.drawable.img_cat), painterResource(id = R.drawable.img_cat))
 
     Column {
         // Header
@@ -73,7 +75,7 @@ fun VisualizeProductPage() {
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 29.dp)
             ) {
-                VisualizeProductCard()
+                VisualizeProductCard(productImages)
             }
             Row {
                 ProductInfoCard(productPrice = 163.90f, discountValue = 20f, availableSizes, availableVariations, availableProductQt = 5)
