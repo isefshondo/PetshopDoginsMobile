@@ -36,14 +36,14 @@ fun CarouselCard(
         HorizontalPager(
             pageCount = items.size,
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 15.dp),
+            contentPadding = PaddingValues(horizontal = 10.dp),
             key = { items[it] },
-            pageSize = PageSize.Fixed(screenWidth * 0.9f)
+            pageSize = PageSize.Fixed(screenWidth * 0.95f)
         ) { page ->
             Card(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 5.dp)
             ){
                 Image(
                     painter = painterResource(id = items[page]),
