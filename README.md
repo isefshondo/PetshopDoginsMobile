@@ -1,5 +1,5 @@
 # Petshop Dogin's Mobile 🐶💙
-Dogin's é um petshop online com um design AUUdacioso 🐶💙 Nele, você pode vizualizar peodutos em destaque na Home, ver mais detalhes do seu produto favorito e adicionar ao carrinho! É claro, você também pode comprar os produtos mais AUUdacioso para seu pet 💙💙💙
+Dogin's é um petshop online com um design AUUdacioso 🐶💙 Nele, você pode visualizar produtos em destaque na Home, ver mais detalhes do seu produto favorito e adicionar ao carrinho! É claro, você também pode comprar os produtos mais AUUdacioso para seu pet 💙💙💙
 
 ### Bora conhecer?
 <p align="center">
