@@ -70,6 +70,7 @@ private val doginsTypography = CustomTextStyles(
 )
 
 val regular14 = doginsTypography.h1
+val bold12 = doginsTypography.h2
 val medium12 = doginsTypography.h3
 val regular12 = doginsTypography.h4
 val medium16 = doginsTypography.h5

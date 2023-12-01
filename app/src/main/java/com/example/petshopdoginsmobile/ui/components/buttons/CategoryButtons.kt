@@ -80,7 +80,7 @@ fun CategoryButtonsRow(
 ){
     LazyRow{
         items(buttons) { (icon, text) ->
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(20.dp))
             CategoryButton(
                 icon = icon,
                 text = text,
