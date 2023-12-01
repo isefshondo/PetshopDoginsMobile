@@ -4,8 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -20,9 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.regular10
+import java.util.Locale.Category
 
 @Composable
-fun CategoryButtons(
+fun CategoryButton(
+    modifier: Modifier = Modifier,
     icon: Int,
     text: String,
     onClick: () -> Unit
@@ -60,10 +66,41 @@ fun CategoryButtons(
 
 @Preview
 @Composable
-private fun CategoryButtonsPreview(){
-    CategoryButtons(
+private fun CategoryButtonPreview(){
+    CategoryButton(
         icon = R.drawable.ic_accessories,
         text = "Acessórios",
         onClick = {}
+    )
+}
+
+@Composable
+fun CategoryButtonsRow(
+    buttons: List<Pair<Int, String>>
+){
+    LazyRow{
+        items(buttons) { (icon, text) ->
+            Spacer(modifier = Modifier.width(16.dp))
+            CategoryButton(
+                icon = icon,
+                text = text,
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CategoryButtonsRowPreview(){
+    CategoryButtonsRow(
+        buttons = listOf(
+            Pair(R.drawable.ic_accessories, "Acessórios"),
+            Pair(R.drawable.ic_accessories, "Acessórios"),
+            Pair(R.drawable.ic_accessories, "Acessórios"),
+            Pair(R.drawable.ic_accessories, "Acessórios"),
+            Pair(R.drawable.ic_accessories, "Acessórios"),
+            Pair(R.drawable.ic_accessories, "Acessórios")
+        )
     )
 }
