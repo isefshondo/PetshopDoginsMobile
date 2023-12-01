@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,19 +16,32 @@ import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
 import com.example.petshopdoginsmobile.ui.components.cards.CarouselCard
 import com.example.petshopdoginsmobile.ui.components.cards.CouponCard
+import com.example.petshopdoginsmobile.ui.components.cards.PromotionCard
 
 @Composable
 fun HomePage(){
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
-        Header()
+        Hero()
         ProductCategories()
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ){
+            PromotionCard(
+                discount = "20% OFF + Frete grátis ",
+                description = "na primeira compra",
+                onClick = {}
+            )
+        }
     }
 }
 
 @Composable
-private fun Header(){
+private fun Hero(){
     CarouselCard(
         items = listOf(
             {
@@ -55,7 +65,7 @@ private fun Header(){
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(horizontal = 20.dp)
     ){
         CouponCard(couponCode = "AUDACIOSO1", discount = "10% OFF")
     }
