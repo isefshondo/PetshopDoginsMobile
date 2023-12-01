@@ -13,9 +13,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
+import com.example.petshopdoginsmobile.domain.Product
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
 import com.example.petshopdoginsmobile.ui.components.cards.CarouselCard
 import com.example.petshopdoginsmobile.ui.components.cards.CouponCard
+import com.example.petshopdoginsmobile.ui.components.cards.ProdutctCardsRow
 import com.example.petshopdoginsmobile.ui.components.cards.PromotionCard
 
 @Composable
@@ -37,6 +39,7 @@ fun HomePage(){
                 onClick = {}
             )
         }
+        ProductsSection()
     }
 }
 
@@ -83,6 +86,37 @@ private fun ProductCategories(){
             Pair(R.drawable.ic_accessories, "Acessórios")
         )
     )
+}
+
+@Composable
+private fun ProductsSection(){
+    val product1 = Product(
+        image = R.drawable.img_cat,
+        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        price = 163.90
+    )
+    val product2 = Product(
+        image = R.drawable.img_cat,
+        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        price = 163.90
+    )
+    val product3 = Product(
+        image = R.drawable.img_cat,
+        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        price = 163.90
+    )
+    val product4 = Product(
+        image = R.drawable.img_cat,
+        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        price = 163.90
+    )
+    val product5 = Product(
+        image = R.drawable.img_cat,
+        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        price = 163.90
+    )
+    val products = listOf(product1, product2, product3, product4, product5)
+    ProdutctCardsRow(products = products, discount = 20.0)
 }
 
 @Preview
