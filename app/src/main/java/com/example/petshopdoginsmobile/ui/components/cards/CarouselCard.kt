@@ -2,7 +2,6 @@ package com.example.petshopdoginsmobile.ui.components.cards
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
@@ -19,13 +18,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CarouselCard(
-    items: List<Int>,
+    items: List<@Composable () -> Unit>,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -37,7 +35,7 @@ fun CarouselCard(
             pageCount = items.size,
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 10.dp),
-            key = { items[it] },
+            key = { items[it].hashCode() },
             pageSize = PageSize.Fixed(screenWidth * 0.95f)
         ) { page ->
             Card(
@@ -45,25 +43,17 @@ fun CarouselCard(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
             ){
-                Image(
-                    painter = painterResource(id = items[page]),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
+                items[page]()
             }
         }
     }
 }
 
-
-
 @Preview
 @Composable
 private fun CarouselCardPreview(){
     CarouselCard(items = listOf(
-        R.drawable.img_carousel_01,
-        R.drawable.img_carousel_02
+        { Image(painter = painterResource(id = R.drawable.img_carousel_01), contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxWidth()) },
+        { Image(painter = painterResource(id = R.drawable.img_carousel_02), contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxWidth()) }
     ))
 }
