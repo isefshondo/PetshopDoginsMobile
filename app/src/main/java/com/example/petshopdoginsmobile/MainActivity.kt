@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtons
 import com.example.petshopdoginsmobile.ui.components.cards.CarouselCard
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 
@@ -25,13 +26,15 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     /*CarouselCard(items = listOf(
-                        R.drawable.img_carousel_01,
-                        R.drawable.img_carousel_02
-                    ))*/
-                    CarouselCard(items = listOf(
                         { Image(painter = painterResource(id = R.drawable.img_carousel_01), contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxWidth()) },
                         { Image(painter = painterResource(id = R.drawable.img_carousel_02), contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxWidth()) }
-                    ))
+                    ))*/
+
+                    CategoryButtons(
+                        icon = R.drawable.ic_accessories,
+                        text = "Acessórios",
+                        onClick = {}
+                    )
                 }
             }
         }
