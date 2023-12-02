@@ -49,20 +49,20 @@ fun ShoppingCartPage() {
             total = MutableStateFlow(0.0)
         )
     )
-    // criar uma lista mutável de ViewModels para cada item
+    // cria uma lista mutável de ViewModels para cada item
     val itemViewModels = remember {
         mutableStateListOf(*items.map {
             ItemViewModel(it)
         }.toTypedArray())
     }
 
-    // criar um estado para armazenar o valor total do carrinho
+    // cria um estado para armazenar o valor total do carrinho
     val totalValue = remember { mutableStateOf(0.0) }
 
-    // criar um estado para armazenar o número total de itens
+    // cria um estado para armazenar o número total de itens
     val totalItems = remember { mutableStateOf(items.size) }
 
-    // criar um coletor para cada ItemViewModel
+    // cria um coletor para cada ItemViewModel
     itemViewModels.forEach { itemViewModel ->
         LaunchedEffect(itemViewModel.total) {
             itemViewModel.total.collect { total ->
@@ -73,9 +73,9 @@ fun ShoppingCartPage() {
         }
     }
 
-    // criar um estado para armazenar os cupons aplicados
+    // cria um estado para armazenar os cupons aplicados
     val coupons = remember { mutableStateOf(mapOf<String?, Double>()) }
-    // criar uma função para calcular o desconto dos cupons
+    // cria uma função para calcular o desconto dos cupons
     val couponDiscount: (String?, Double) -> Double = { _, _ -> 0.0 }
 
     Scaffold(

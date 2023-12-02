@@ -27,7 +27,11 @@ private val doginsTypography = CustomTextStyles(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     ),
-
+    h5 = TextStyle(
+        fontFamily = poppinsFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
+    ),
     body1 = TextStyle(
         fontFamily = poppinsFamily,
         fontWeight = FontWeight.Normal,
@@ -66,8 +70,10 @@ private val doginsTypography = CustomTextStyles(
 )
 
 val regular14 = doginsTypography.h1
+val bold12 = doginsTypography.h2
 val medium12 = doginsTypography.h3
 val regular12 = doginsTypography.h4
+val medium16 = doginsTypography.h5
 
 val regular10 = doginsTypography.body1
 val medium14 = doginsTypography.body3

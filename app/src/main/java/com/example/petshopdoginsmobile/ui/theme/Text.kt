@@ -12,6 +12,7 @@ data class CustomTextStyles(
     val h2: TextStyle,
     val h3: TextStyle,
     val h4: TextStyle,
+    val h5: TextStyle,
     val body1: TextStyle,
     val body2: TextStyle,
     val body3: TextStyle,
