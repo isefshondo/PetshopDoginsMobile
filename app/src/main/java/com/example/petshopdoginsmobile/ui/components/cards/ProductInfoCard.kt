@@ -54,6 +54,18 @@ import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 
 @Composable
+fun renderDivider() {
+    Spacer(modifier = Modifier.height(10.dp))
+    Box (
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp)
+            .background(Grey)
+    )
+    Spacer(modifier = Modifier.height(15.dp))
+}
+
+@Composable
 fun renderPricesOnDiscount(productPrice: Float, discountValue: Float) {
     val priceDiscount = (productPrice * (100f - discountValue)) / 100f;
 
@@ -97,6 +109,7 @@ fun renderPricesOnDiscount(productPrice: Float, discountValue: Float) {
             }
         }, style = medium20)
     }
+    renderDivider()
 }
 
 @Composable
@@ -111,6 +124,7 @@ fun renderPriceSection(productPrice: Float, discountValue: Float?) {
                 }
             }, style = medium20)
         }
+        renderDivider()
     }
 }
 
@@ -183,6 +197,34 @@ fun renderApplyCouponSection() {
 }
 
 @Composable
+fun renderProductDescription() {
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(width = 1.dp, color = Grey, shape = RoundedCornerShape(10.dp))
+            .padding(horizontal = 18.dp, vertical = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+    ) {
+        Row {
+            Column {
+                Text(text = "Marca", color = GreyDarkier, style = medium20)
+                Text(text = "Letraset sheets containing Lorem Ipsum", color = GreyDarkier, style = regular12)
+            }
+        }
+        Row {
+            Column {
+                Text(text = "Descrição", color = GreyDarkier, style = medium20)
+                Text(
+                    text = "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Pa",
+                    color = GreyDarkier,
+                    style = regular12
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun ProductInfoCard(
     productPrice: Float,
     discountValue: Float?,
@@ -194,7 +236,7 @@ fun ProductInfoCard(
         modifier = Modifier
             .shadow(
                 elevation = 18.5.dp,
-                shape = RoundedCornerShape(30.dp)
+                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
             )
             .clip(RoundedCornerShape(30.dp))
             .background(White)
@@ -259,6 +301,7 @@ fun ProductInfoCard(
             }
         }
         Spacer(modifier = Modifier.height(21.dp))
+        renderProductDescription()
     }
 }
 
