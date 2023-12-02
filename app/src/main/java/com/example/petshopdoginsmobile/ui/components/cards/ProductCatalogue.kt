@@ -74,12 +74,13 @@ fun ProductCatalogue(
                 )
             }
             Divider(color = BgGrey)
-            LazyColumn(modifier = Modifier.width(cardWidth)){
-                items((products.size + 1) / 2) { rowIndex ->
+            Column(modifier = Modifier.width(cardWidth)) {
+                val maxProducts = minOf(products.size, 4) // Limita a quantidade de produtos
+                for (index in 0 until maxProducts step 2) {
                     Row(modifier = Modifier.width(cardWidth)) {
                         for (columnIndex in 0 until 2) {
-                            val index = rowIndex * 2 + columnIndex
-                            if (index < products.size) {
+                            val productIndex = index + columnIndex
+                            if (productIndex < maxProducts) {
                                 var itemModifier = Modifier.widthIn(min = itemWidth)
                                 if(columnIndex == 0) {
                                     itemModifier = itemModifier.drawBehind {
@@ -98,7 +99,7 @@ fun ProductCatalogue(
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ){
                                         ProductItem(
-                                            product = products[index],
+                                            product = products[productIndex],
                                             shippingCost = shippingCost
                                         )
                                     }
@@ -129,7 +130,7 @@ private fun ProductItem(
     modifier: Modifier = Modifier
 ){
     Column(
-        modifier = modifier
+        modifier = Modifier
             .widthIn(max = 160.dp)
             .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

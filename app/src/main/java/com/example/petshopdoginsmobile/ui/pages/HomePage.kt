@@ -2,10 +2,13 @@ package com.example.petshopdoginsmobile.ui.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -17,29 +20,33 @@ import com.example.petshopdoginsmobile.domain.Product
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
 import com.example.petshopdoginsmobile.ui.components.cards.CarouselCard
 import com.example.petshopdoginsmobile.ui.components.cards.CouponCard
+import com.example.petshopdoginsmobile.ui.components.cards.ProductCatalogue
 import com.example.petshopdoginsmobile.ui.components.cards.ProdutctCardsRow
 import com.example.petshopdoginsmobile.ui.components.cards.PromotionCard
 
 @Composable
 fun HomePage(){
-    Column(
+    LazyColumn(
+        modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
-    ){
-        Hero()
-        ProductCategories()
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ){
-            PromotionCard(
-                discount = "20% OFF + Frete grátis ",
-                description = "na primeira compra",
-                onClick = {}
-            )
+    ) {
+        item { Hero() }
+        item { ProductCategories() }
+        item {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                PromotionCard(
+                    discount = "20% OFF + Frete grátis ",
+                    description = "na primeira compra",
+                    onClick = {}
+                )
+            }
         }
-        ProductsSection()
+        item { ProductsSection() }
     }
 }
 
@@ -65,6 +72,7 @@ private fun Hero(){
             }
         )
     )
+    Spacer(modifier = Modifier.height(12.dp))
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,6 +125,13 @@ private fun ProductsSection(){
     )
     val products = listOf(product1, product2, product3, product4, product5)
     ProdutctCardsRow(products = products, discount = 20.0)
+    Spacer(modifier = Modifier.height(12.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ){
+        ProductCatalogue(products = products)
+    }
 }
 
 @Preview
