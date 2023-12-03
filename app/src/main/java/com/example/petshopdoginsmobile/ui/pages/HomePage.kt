@@ -31,7 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
-import com.example.petshopdoginsmobile.domain.Product
+import com.example.petshopdoginsmobile.domain.ProductDomain
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
 import com.example.petshopdoginsmobile.ui.components.buttons.TypeButtonsRow
 import com.example.petshopdoginsmobile.ui.components.cards.CarouselCard
@@ -126,44 +126,44 @@ private fun ProductCategories(){
 
 @Composable
 private fun ProductsSection(){
-    val product1 = Product(
+    val productDomain1 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product2 = Product(
+    val productDomain2 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product3 = Product(
+    val productDomain3 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product4 = Product(
+    val productDomain4 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product5 = Product(
+    val productDomain5 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val products = listOf(product1, product2, product3, product4, product5)
-    ProdutctCardsRow(products = products, discount = 20.0)
+    val products = listOf(productDomain1, productDomain2, productDomain3, productDomain4, productDomain5)
+    ProdutctCardsRow(productDomains = products, discount = 20.0)
     Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ){
-        ProductCatalogue(products = products)
+        ProductCatalogue(productDomains = products)
     }
 }
 
 @Composable
-fun PetTypes(){
+private fun PetTypes(){
     val configuration = LocalConfiguration.current
     val d = CardDimensions(configuration)
     val cardWidth = d.screenWidth - (Dimensions.SCREEN_PADDING * 2)

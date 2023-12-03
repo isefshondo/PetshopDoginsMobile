@@ -75,4 +75,19 @@ dependencies {
 
     // Carousel Card Slider
     implementation("com.google.accompanist:accompanist-pager:0.20.0")
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1") // Para converter JSON para objetos Kotlin
+
+    //mongodb
+    implementation("org.mongodb:bson:4.11.0")
+
+    // ViewModel and LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    // LiveData coroutines support
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 }

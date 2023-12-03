@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
-import com.example.petshopdoginsmobile.domain.Product
+import com.example.petshopdoginsmobile.domain.ProductDomain
 import com.example.petshopdoginsmobile.ui.components.buttons.ClickableLinkText
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.theme.Green
@@ -44,7 +44,7 @@ import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
 
 @Composable
 fun ProductCatalogue(
-    products: List<Product>,
+    productDomains: List<ProductDomain>,
     shippingCost: Double = 0.0
 ){
     val configuration = LocalConfiguration.current
@@ -74,7 +74,7 @@ fun ProductCatalogue(
             }
             Divider(color = BgGrey)
             Column(modifier = Modifier.width(cardWidth)) {
-                val maxProducts = minOf(products.size, 4) // Limita a quantidade de produtos
+                val maxProducts = minOf(productDomains.size, 4) // Limita a quantidade de produtos
                 for (index in 0 until maxProducts step 2) {
                     Row(modifier = Modifier.width(cardWidth)) {
                         for (columnIndex in 0 until 2) {
@@ -98,7 +98,7 @@ fun ProductCatalogue(
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ){
                                         ProductItem(
-                                            product = products[productIndex],
+                                            productDomain = productDomains[productIndex],
                                             shippingCost = shippingCost
                                         )
                                     }
@@ -125,7 +125,7 @@ fun ProductCatalogue(
 
 @Composable
 private fun ProductItem(
-    product: Product,
+    productDomain: ProductDomain,
     shippingCost: Double = 0.0,
 ){
     Column(
@@ -136,7 +136,7 @@ private fun ProductItem(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
         Image(
-            painter = painterResource(id = product.image),
+            painter = painterResource(id = productDomain.image),
             contentDescription = "Product image"
         )
         Column(
@@ -145,11 +145,11 @@ private fun ProductItem(
         ){
             Text(
                 modifier = Modifier.height(16.dp),
-                text = product.price.formatToCurrency(),
+                text = productDomain.price.formatToCurrency(),
                 style = medium14.copy(VibrantBlue)
             )
             Text(
-                text = product.description,
+                text = productDomain.description,
                 style = regular10.copy(Grey),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -166,42 +166,42 @@ private fun ProductItem(
 @Preview
 @Composable
 private fun ProductCataloguePreview(){
-    val product1 = Product(
+    val productDomain1 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product2 = Product(
+    val productDomain2 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product3 = Product(
+    val productDomain3 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product4 = Product(
+    val productDomain4 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val product5 = Product(
+    val productDomain5 = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    val products = listOf(product1, product2, product3, product4, product5)
-    ProductCatalogue(products = products)
+    val products = listOf(productDomain1, productDomain2, productDomain3, productDomain4, productDomain5)
+    ProductCatalogue(productDomains = products)
 }
 
 @Preview
 @Composable
 private fun ProductItemPreview(){
-    val product = Product(
+    val productDomain = ProductDomain(
         image = R.drawable.img_cat,
         description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         price = 163.90
     )
-    ProductItem(product)
+    ProductItem(productDomain)
 }
