@@ -1,15 +1,17 @@
 package com.example.petshopdoginsmobile.ui.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petshopdoginsmobile.model.entities.Product
-import com.example.petshopdoginsmobile.model.repository.ProductRepository
+import com.example.petshopdoginsmobile.model.retrofit.ApiClient
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
-    val products = MutableLiveData<List<Product>>()
+class ProductsViewModel : ViewModel() {
+    private val _products = MutableStateFlow<List<Product>>(emptyList())
+    val products: StateFlow<List<Product>> = _products
 
     init{
         fetchProducts()
@@ -18,7 +20,7 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
     private fun fetchProducts(){
         viewModelScope.launch {
             try{
-                products.value = repository.findAll()
+                _products.value = ApiClient.apiService.findAll()
             }catch(e: Exception){
                 Log.i("fetchProductsError", "${e.message}")
             }

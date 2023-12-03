@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
-import com.example.petshopdoginsmobile.domain.ProductDomain
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
 import com.example.petshopdoginsmobile.ui.components.buttons.TypeButtonsRow
 import com.example.petshopdoginsmobile.ui.components.cards.CarouselCard
@@ -45,11 +45,18 @@ import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.CardDimensions
 import com.example.petshopdoginsmobile.ui.utils.Dimensions
+import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.petshopdoginsmobile.ui.components.cards.LoadBinaryImage
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(){
+    val viewModel: ProductsViewModel = viewModel()
+
     Scaffold(
         containerColor = BgGrey,
     ){
@@ -73,7 +80,7 @@ fun HomePage(){
                     )
                 }
             }
-            item { ProductsSection() }
+            item { ProductsSection(viewModel) }
             item { PetTypes() }
         }
     }
@@ -125,41 +132,24 @@ private fun ProductCategories(){
 }
 
 @Composable
-private fun ProductsSection(){
-    val productDomain1 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
-    )
-    val productDomain2 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
-    )
-    val productDomain3 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
-    )
-    val productDomain4 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
-    )
-    val productDomain5 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
-    )
-    val products = listOf(productDomain1, productDomain2, productDomain3, productDomain4, productDomain5)
-    ProdutctCardsRow(productDomains = products, discount = 20.0)
-    Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ){
-        ProductCatalogue(productDomains = products)
+fun ProductsSection(viewModel: ProductsViewModel) {
+    val products by viewModel.products.collectAsState()
+    LoadBinaryImage(productImageExample)
+/*
+    if(products.isNotEmpty()){
+        ProdutctCardsRow(productDomains = products, discount = 20.0)
+        Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            ProductCatalogue(productDomains = products)
+        }
+    } else {
+        // mostrar um indicador de carregamento ou uma mensagem de erro
     }
+
+ */
 }
 
 @Composable
