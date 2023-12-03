@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -28,11 +27,10 @@ import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
-import com.example.petshopdoginsmobile.ui.theme.SoftBlue
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.components.cards.ProductInfoCard
-import com.example.petshopdoginsmobile.ui.components.header.Header
+import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.White
 
@@ -46,14 +44,11 @@ fun VisualizeProductPage() {
         // Header
         Column (
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(.18F)
-                .background(Color.Yellow),
+                .fillMaxWidth(),
         ) {
-            Header(
+            PageHeader (
+                isHomePage = false,
                 headerTitle = "Detalhes",
-                handleGoBackEvent = { /*TODO*/ },
-                handleSearchEvent = { /*TODO*/ },
                 handleViewCartEvent = { /* TODO */ },
             )
         }
