@@ -1,9 +1,9 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,18 +16,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.example.petshopdoginsmobile.R
 import androidx.compose.ui.text.SpanStyle
@@ -43,24 +39,46 @@ import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.theme.regular14
+import android.util.Base64
+import androidx.compose.ui.graphics.asImageBitmap
+
+fun convertImageByteArrayToBitmap(imageData: String?): Bitmap? {
+    return try {
+        val binaryData: ByteArray = Base64.decode(imageData, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(binaryData, 0, binaryData.size)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
 
 @Composable
-fun LoadProductImages(productImages: List<Painter>) {
-    LazyRow (
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        items(productImages) {image ->
-            Box (
-                modifier = Modifier
-                    .border(width = 2.dp, color = Blue, shape = RoundedCornerShape(10.dp))
-                    .clip(RoundedCornerShape(10.dp))
-                    .size(50.dp)
-            ) {
-                Image(
-                    painter = image,
-                    contentDescription = "Image of product",
-                    modifier = Modifier.fillMaxSize(),
-                )
+fun LoadProductImages(productImages: List<String?>) {
+    if (productImages.isNotEmpty()) {
+        LazyRow (
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(productImages) {image ->
+                Box (
+                    modifier = Modifier
+                        .border(width = 2.dp, color = Blue, shape = RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(50.dp)
+                ) {
+                    if (convertImageByteArrayToBitmap(image) !== null) {
+                        Image(
+                            bitmap = convertImageByteArrayToBitmap(image)!!.asImageBitmap(),
+                            contentDescription = "Image of product",
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = R.drawable.img_cat),
+                            contentDescription = "Image of product",
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                }
             }
         }
     }
@@ -68,8 +86,12 @@ fun LoadProductImages(productImages: List<Painter>) {
 
 @Composable
 fun VisualizeProductCard(
-    productImages: List<Painter>,
+    productRating: Float,
+    reviewQuantity: Int,
+    allProductComments: Int,
+    productTitle: String,
 ) {
+    val productImages: List<String?> = listOf<String>("")
     Box {
         Column {
             Row (
@@ -120,7 +142,7 @@ fun VisualizeProductCard(
                         Box (
                             contentAlignment = Alignment.CenterStart,
                         ) {
-                            Text(text = "4,5".toString(), style = regular12)
+                            Text(text = productRating.toString(), style = regular12)
                         }
                     }
                     Row (
@@ -148,7 +170,7 @@ fun VisualizeProductCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                        Text(text = "129", style = regular14)
+                        Text(text = reviewQuantity.toString(), style = regular14)
                     }
                 }
                 Spacer(modifier = Modifier.width(6.dp))
@@ -191,7 +213,7 @@ fun VisualizeProductCard(
                         Box (
                             contentAlignment = Alignment.CenterStart,
                         ) {
-                            Text(text = "4,5".toString(), style = regular12)
+                            Text(text = allProductComments.toString(), style = regular12)
                         }
                     }
                 }
@@ -204,7 +226,7 @@ fun VisualizeProductCard(
             ) {
                 Text(text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = GreyDarkier)) {
-                        append("Fantasia para Gatos de XXX Unicórnio e Leão")
+                        append(productTitle)
                     }
                 }, style = medium20)
             }
@@ -228,7 +250,11 @@ fun VisualizeProductCard(
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.TopCenter,
                         ) {
-                            IconButton(image = R.drawable.share_icon, imageDescription = "Share Button", onClick = {})
+                            IconButton(
+                                image = R.drawable.share_icon,
+                                imageDescription = "Share Button",
+                                onClick = {}
+                            )
                         }
                     }
                     Box (
@@ -237,11 +263,19 @@ fun VisualizeProductCard(
                             .fillMaxHeight(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_cat),
-                            contentDescription = "Image of product",
-                            modifier = Modifier.fillMaxSize(),
-                        )
+                        if (convertImageByteArrayToBitmap(productImages[0]) !== null) {
+                            Image(
+                                bitmap = convertImageByteArrayToBitmap(productImages[0])!!.asImageBitmap(),
+                                contentDescription = "Image of product",
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        } else {
+                            Image(
+                                painter = painterResource(id = R.drawable.img_cat),
+                                contentDescription = "Image of product",
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
                     }
                     Box (
                         modifier = Modifier
@@ -275,8 +309,7 @@ fun VisualizeProductCard(
 @Composable
 @Preview(showBackground = true)
 fun VisualizeProductCardPreview() {
-    val productImages = listOf<Painter>(painterResource(id = R.drawable.img_cat), painterResource(id = R.drawable.img_cat))
     PetshopDoginsMobileTheme {
-        VisualizeProductCard(productImages)
+        VisualizeProductCard(productRating = 5f, reviewQuantity = 100, allProductComments = 45, productTitle = "Fantasia para Gatos de XXX Unicórnio e Leão")
     }
 }

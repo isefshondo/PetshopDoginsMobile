@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.domain.Item
 import com.example.petshopdoginsmobile.ui.components.cards.CartProductCard
@@ -28,7 +30,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingCartPage() {
+fun ShoppingCartPage(navController: NavController) {
     val items = listOf(
         Item(
             image = painterResource(id = R.drawable.img_cat),
@@ -129,5 +131,6 @@ fun ShoppingCartPage() {
 @Preview
 @Composable
 private fun ShoppingCartPagePreview(){
-    ShoppingCartPage()
+    val navController = rememberNavController()
+    ShoppingCartPage(navController)
 }

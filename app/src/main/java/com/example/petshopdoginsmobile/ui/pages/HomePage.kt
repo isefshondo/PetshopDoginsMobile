@@ -12,6 +12,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.domain.Product
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
@@ -21,7 +23,7 @@ import com.example.petshopdoginsmobile.ui.components.cards.ProdutctCardsRow
 import com.example.petshopdoginsmobile.ui.components.cards.PromotionCard
 
 @Composable
-fun HomePage(){
+fun HomePage(navController: NavController){
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
@@ -122,5 +124,6 @@ private fun ProductsSection(){
 @Preview
 @Composable
 private fun HomePagePreview(){
-    HomePage()
+    val navController = rememberNavController()
+    HomePage(navController)
 }

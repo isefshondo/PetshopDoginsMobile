@@ -24,6 +24,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
@@ -35,11 +37,9 @@ import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.White
 
 @Composable
-fun VisualizeProductPage() {
+fun VisualizeProductPage(navController: NavController) {
     val availableSizes = listOf<String>("P", "M", "G");
     val availableVariations = listOf<String>("Unicórnio", "Leão")
-    val productImages = listOf<Painter>(painterResource(id = R.drawable.img_cat), painterResource(id = R.drawable.img_cat))
-
     Column {
         // Header
         Column (
@@ -63,7 +63,7 @@ fun VisualizeProductPage() {
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 29.dp)
             ) {
-                VisualizeProductCard(productImages)
+                VisualizeProductCard(productRating = 4.5f, reviewQuantity = 129, allProductComments = 45, productTitle = "Fantasia para Gatos de XXX Unicórnio e Leão")
             }
             Row {
                 ProductInfoCard(productPrice = 163.90f, discountValue = 20f, availableSizes, availableVariations, availableProductQt = 5)
@@ -103,7 +103,8 @@ fun VisualizeProductPage() {
 @Composable
 @Preview(showBackground = true)
 fun VisualizeProductPagePreview() {
+    val navController = rememberNavController()
     PetshopDoginsMobileTheme {
-        VisualizeProductPage()
+        VisualizeProductPage(navController)
     }
 }
