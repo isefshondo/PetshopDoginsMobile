@@ -238,7 +238,7 @@ fun ProductInfoCard(
                 elevation = 18.5.dp,
                 shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
             )
-            .clip(RoundedCornerShape(30.dp))
+            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             .background(White)
             .padding(23.dp),
     ) {
