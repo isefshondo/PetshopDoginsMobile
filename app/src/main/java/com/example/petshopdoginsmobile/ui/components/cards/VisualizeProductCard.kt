@@ -40,12 +40,14 @@ import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.theme.regular14
 import android.util.Base64
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import com.example.petshopdoginsmobile.ui.viewmodels.ProductPageViewModel
 
-fun convertImageByteArrayToBitmap(imageData: String?): Bitmap? {
+fun convertImageByteArrayToBitmap(imageData: String?): ImageBitmap? {
     return try {
         val binaryData: ByteArray = Base64.decode(imageData, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(binaryData, 0, binaryData.size)
+        return BitmapFactory.decodeByteArray(binaryData, 0, binaryData.size).asImageBitmap()
     } catch (e: Exception) {
         e.printStackTrace()
         null
@@ -67,7 +69,7 @@ fun LoadProductImages(productImages: List<String?>) {
                 ) {
                     if (convertImageByteArrayToBitmap(image) !== null) {
                         Image(
-                            bitmap = convertImageByteArrayToBitmap(image)!!.asImageBitmap(),
+                            bitmap = convertImageByteArrayToBitmap(image)!!,
                             contentDescription = "Image of product",
                             modifier = Modifier.fillMaxSize(),
                         )
@@ -89,9 +91,9 @@ fun VisualizeProductCard(
     productRating: Float,
     reviewQuantity: Int,
     allProductComments: Int,
-    productTitle: String,
+    productPageViewModel: ProductPageViewModel
 ) {
-    val productImages: List<String?> = listOf<String>("")
+    val productInfo = productPageViewModel.productInformation.value
     Box {
         Column {
             Row (
@@ -226,7 +228,7 @@ fun VisualizeProductCard(
             ) {
                 Text(text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = GreyDarkier)) {
-                        append(productTitle)
+                        append(productInfo?.productName)
                     }
                 }, style = medium20)
             }
@@ -263,9 +265,9 @@ fun VisualizeProductCard(
                             .fillMaxHeight(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        if (convertImageByteArrayToBitmap(productImages[0]) !== null) {
+                        if (productInfo?.productImages !== null) {
                             Image(
-                                bitmap = convertImageByteArrayToBitmap(productImages[0])!!.asImageBitmap(),
+                                bitmap = convertImageByteArrayToBitmap(productInfo.productImages[0])!!,
                                 contentDescription = "Image of product",
                                 modifier = Modifier.fillMaxSize(),
                             )
@@ -299,17 +301,9 @@ fun VisualizeProductCard(
             ) {
                 Column (modifier = Modifier.weight(.75F)) {}
                 Column (modifier = Modifier.weight(1F)) {
-                    LoadProductImages(productImages)
+                    LoadProductImages(productInfo!!.productImages)
                 }
             }
         }
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun VisualizeProductCardPreview() {
-    PetshopDoginsMobileTheme {
-        VisualizeProductCard(productRating = 5f, reviewQuantity = 100, allProductComments = 45, productTitle = "Fantasia para Gatos de XXX Unicórnio e Leão")
     }
 }

@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingCartPage(navController: NavController) {
+fun ShoppingCartPage() {
     val items = listOf(
         Item(
             image = painterResource(id = R.drawable.img_cat),
@@ -131,6 +131,5 @@ fun ShoppingCartPage(navController: NavController) {
 @Preview
 @Composable
 private fun ShoppingCartPagePreview(){
-    val navController = rememberNavController()
-    ShoppingCartPage(navController)
+    ShoppingCartPage()
 }

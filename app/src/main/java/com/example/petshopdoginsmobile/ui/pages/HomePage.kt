@@ -23,7 +23,7 @@ import com.example.petshopdoginsmobile.ui.components.cards.ProdutctCardsRow
 import com.example.petshopdoginsmobile.ui.components.cards.PromotionCard
 
 @Composable
-fun HomePage(navController: NavController){
+fun HomePage(){
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
@@ -124,6 +124,5 @@ private fun ProductsSection(){
 @Preview
 @Composable
 private fun HomePagePreview(){
-    val navController = rememberNavController()
-    HomePage(navController)
+    HomePage()
 }

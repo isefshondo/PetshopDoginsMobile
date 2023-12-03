@@ -14,32 +14,37 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.petshopdoginsmobile.domain.StaticProduct
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.medium20
-import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.components.cards.ProductInfoCard
 import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.White
+import com.example.petshopdoginsmobile.ui.viewmodels.ProductPageViewModel
 
 @Composable
-fun VisualizeProductPage(navController: NavController) {
-    val availableSizes = listOf<String>("P", "M", "G");
-    val availableVariations = listOf<String>("Unicórnio", "Leão")
+fun VisualizeProductPage() {
+    val staticProductInfo = StaticProduct(
+        productRating = 4.5f,
+        productRatingQuantity = 129,
+        productComments = 50
+    )
+    val productPageViewModel: ProductPageViewModel = viewModel()
     Column {
         // Header
         Column (
@@ -63,10 +68,15 @@ fun VisualizeProductPage(navController: NavController) {
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 29.dp)
             ) {
-                VisualizeProductCard(productRating = 4.5f, reviewQuantity = 129, allProductComments = 45, productTitle = "Fantasia para Gatos de XXX Unicórnio e Leão")
+                VisualizeProductCard(
+                    productRating = staticProductInfo.productRating,
+                    reviewQuantity = staticProductInfo.productRatingQuantity,
+                    allProductComments = staticProductInfo.productComments,
+                    productPageViewModel,
+                )
             }
             Row {
-                ProductInfoCard(productPrice = 163.90f, discountValue = 20f, availableSizes, availableVariations, availableProductQt = 5)
+                ProductInfoCard(productPageViewModel)
             }
         }
         // Buy Button Column
@@ -103,8 +113,7 @@ fun VisualizeProductPage(navController: NavController) {
 @Composable
 @Preview(showBackground = true)
 fun VisualizeProductPagePreview() {
-    val navController = rememberNavController()
     PetshopDoginsMobileTheme {
-        VisualizeProductPage(navController)
+        VisualizeProductPage()
     }
 }

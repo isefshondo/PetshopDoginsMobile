@@ -35,7 +35,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
@@ -44,7 +43,6 @@ import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
-import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.SoftBlue
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.White
@@ -52,6 +50,7 @@ import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
+import com.example.petshopdoginsmobile.ui.viewmodels.ProductPageViewModel
 
 @Composable
 fun renderDivider() {
@@ -197,7 +196,7 @@ fun renderApplyCouponSection() {
 }
 
 @Composable
-fun renderProductDescription() {
+fun renderProductDescription(brandName: String, productDescription: String) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -208,14 +207,14 @@ fun renderProductDescription() {
         Row {
             Column {
                 Text(text = "Marca", color = GreyDarkier, style = medium20)
-                Text(text = "Letraset sheets containing Lorem Ipsum", color = GreyDarkier, style = regular12)
+                Text(text = brandName, color = GreyDarkier, style = regular12)
             }
         }
         Row {
             Column {
                 Text(text = "Descrição", color = GreyDarkier, style = medium20)
                 Text(
-                    text = "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Pa",
+                    text = productDescription,
                     color = GreyDarkier,
                     style = regular12
                 )
@@ -225,14 +224,24 @@ fun renderProductDescription() {
 }
 
 @Composable
-fun ProductInfoCard(
-    productPrice: Float,
-    discountValue: Float?,
-    availableSizes: List<String>,
-    availableVariations: List<String>,
-    availableProductQt: Int,
-) {
+fun RenderLoadingScreen() {
     Column (
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(text = "Carregando produto selecionado...", style = medium20, color = Blue)
+    }
+}
+
+@Composable
+fun ProductInfoCard(
+    productPageViewModel: ProductPageViewModel
+) {
+    val productInfo = productPageViewModel.productInformation.value
+
+    if (productInfo === null) return RenderLoadingScreen()
+    return Column (
         modifier = Modifier
             .shadow(
                 elevation = 18.5.dp,
@@ -243,7 +252,7 @@ fun ProductInfoCard(
             .padding(23.dp),
     ) {
         Column {
-            renderPriceSection(productPrice, discountValue)
+            renderPriceSection(productInfo.productPrice, 20f)
         }
         Column {
             Text(buildAnnotatedString {
@@ -252,7 +261,8 @@ fun ProductInfoCard(
                 }
             }, style = medium20)
             Spacer(modifier = Modifier.width(15.dp))
-            renderAvailableOptions(availableOptions = availableSizes, buttonSize = listOf(47.36.dp, 47.36.dp))
+            val availableOptions = listOf<String>(productInfo.size)
+            renderAvailableOptions(availableOptions, buttonSize = listOf(47.36.dp, 47.36.dp))
         }
         Spacer(modifier = Modifier.height(17.dp))
         Column {
@@ -262,7 +272,8 @@ fun ProductInfoCard(
                 }
             }, style = medium20)
             Spacer(modifier = Modifier.width(15.dp))
-            renderAvailableOptions(availableOptions = availableVariations, buttonSize = listOf(152.dp, 45.36.dp))
+            val availableOptions = listOf<String>("Unicórnio", "Leão")
+            renderAvailableOptions(availableOptions, buttonSize = listOf(152.dp, 45.36.dp))
         }
         Spacer(modifier = Modifier.height(17.dp))
         Column {
@@ -301,16 +312,6 @@ fun ProductInfoCard(
             }
         }
         Spacer(modifier = Modifier.height(21.dp))
-        renderProductDescription()
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ProductInfoCardPreview() {
-    PetshopDoginsMobileTheme {
-        val availableSizes = listOf<String>("P", "M", "G");
-        val availableVariations = listOf<String>("Unicórnio", "Leão")
-        ProductInfoCard(productPrice = 163.90f, discountValue = 20f, availableSizes, availableVariations, availableProductQt = 5)
+        renderProductDescription(productInfo.brandName, productInfo.productDescription)
     }
 }
