@@ -66,7 +66,7 @@ fun ProductCatalogue(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 21.dp)
+                    .padding(horizontal = 21.dp, vertical = 8.dp)
             ){
                 Text(
                     text = "Produtos AUUdaciosos",
@@ -116,6 +116,7 @@ fun ProductCatalogue(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(8.dp)
             ){
                 ClickableLinkText(text = "Veja mais", onClick = {})
             }

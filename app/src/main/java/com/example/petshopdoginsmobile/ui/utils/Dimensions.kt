@@ -13,6 +13,7 @@ object Dimensions {
     val COL_RIGHT_WIDTH_PERCENT = 0.684f
 
     val SCREEN_PADDING = 20.dp
+    val VERTICAL_SPACING = 18.dp
 }
 
 class CardDimensions(configuration: Configuration) {

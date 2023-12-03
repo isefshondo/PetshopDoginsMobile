@@ -1,5 +1,6 @@
 package com.example.petshopdoginsmobile.ui.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -9,12 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.domain.Product
 import com.example.petshopdoginsmobile.ui.components.buttons.CategoryButtonsRow
@@ -23,30 +25,38 @@ import com.example.petshopdoginsmobile.ui.components.cards.CouponCard
 import com.example.petshopdoginsmobile.ui.components.cards.ProductCatalogue
 import com.example.petshopdoginsmobile.ui.components.cards.ProdutctCardsRow
 import com.example.petshopdoginsmobile.ui.components.cards.PromotionCard
+import com.example.petshopdoginsmobile.ui.theme.BgGrey
+import com.example.petshopdoginsmobile.ui.utils.Dimensions
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(){
-    LazyColumn(
-        modifier = Modifier.fillMaxHeight(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item { Hero() }
-        item { ProductCategories() }
-        item {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                PromotionCard(
-                    discount = "20% OFF + Frete grátis ",
-                    description = "na primeira compra",
-                    onClick = {}
-                )
+    Scaffold(
+        containerColor = BgGrey,
+    ){
+        LazyColumn(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.spacedBy(Dimensions.VERTICAL_SPACING)
+        ) {
+            item { Hero() }
+            item { ProductCategories() }
+            item {
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = Dimensions.SCREEN_PADDING)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    PromotionCard(
+                        discount = "20% OFF + Frete grátis ",
+                        description = "na primeira compra",
+                        onClick = {}
+                    )
+                }
             }
+            item { ProductsSection() }
         }
-        item { ProductsSection() }
     }
 }
 
@@ -72,11 +82,11 @@ private fun Hero(){
             }
         )
     )
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = Dimensions.SCREEN_PADDING)
     ){
         CouponCard(couponCode = "AUDACIOSO1", discount = "10% OFF")
     }
@@ -125,7 +135,7 @@ private fun ProductsSection(){
     )
     val products = listOf(product1, product2, product3, product4, product5)
     ProdutctCardsRow(products = products, discount = 20.0)
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
