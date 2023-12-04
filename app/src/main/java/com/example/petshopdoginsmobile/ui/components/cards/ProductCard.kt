@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,13 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.petshopdoginsmobile.R
-import com.example.petshopdoginsmobile.domain.ProductDomain
+import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
@@ -33,13 +30,14 @@ import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.regular10
 import com.example.petshopdoginsmobile.ui.utils.calculateDiscountedPrice
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @Composable
 fun ProductCard(
-    productDomain: ProductDomain,
+    product: Product,
     discountValue: Double = 0.0,
 ){
-    val price = calculateDiscountedPrice(productDomain.price, discountValue)
+    val price = calculateDiscountedPrice(product.productPrice!!, discountValue)
     ElevatedCard(
         modifier = Modifier.widthIn(max = 133.dp),
         colors = CardDefaults.cardColors(
@@ -51,12 +49,9 @@ fun ProductCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
-            Image(
-                painter = painterResource(id = productDomain.image),
-                contentDescription = "Product image"
-            )
+            LoadBinaryImage(productImage = product.productImages[0], "Product image")
             Text(
-                text = productDomain.description,
+                text = product.productDescription!!,
                 style = regular10.copy(Grey),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -67,7 +62,7 @@ fun ProductCard(
             ){
                 Text(
                     modifier = Modifier.height(16.dp),
-                    text = productDomain.price.formatToCurrency(),
+                    text = product.productPrice.formatToCurrency(),
                     style = discount.copy(
                         color = GreyDarkier,
                         textDecoration = TextDecoration.LineThrough
@@ -86,26 +81,32 @@ fun ProductCard(
 @Preview
 @Composable
 private fun ProductCardView(){
-    val productDomain = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+    val product = Product(
+        productImages = listOf(productImageExample),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     ProductCard(
-        productDomain = productDomain,
+        product = product,
         discountValue = 20.0
     )
 }
 
 @Composable
 fun ProdutctCardsRow(
-    productDomains: List<ProductDomain>,
+    products: List<Product>,
     discount: Double = 0.0
 ){
     LazyRow {
-        items(productDomains) { product ->
+        items(products) { product ->
             Spacer(modifier = Modifier.width(20.dp))
-            ProductCard(productDomain = product, discountValue = discount)
+            ProductCard(product = product, discountValue = discount)
         }
     }
 }
@@ -113,31 +114,61 @@ fun ProdutctCardsRow(
 @Preview
 @Composable
 private fun ProductCardsRowPreview(){
-    val productDomain1 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+    val product1 = Product(
+        productImages = listOf(productImageExample),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
-    val productDomain2 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+    val product2 = Product(
+        productImages = listOf(productImageExample),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
-    val productDomain3 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+    val product3 = Product(
+        productImages = listOf(productImageExample),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
-    val productDomain4 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+    val product4 = Product(
+        productImages = listOf(productImageExample),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
-    val productDomain5 = ProductDomain(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+    val product5 = Product(
+        productImages = listOf(productImageExample),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
-    val products = listOf(productDomain1, productDomain2, productDomain3, productDomain4, productDomain5)
-    ProdutctCardsRow(productDomains = products, discount = 20.0)
+    val products = listOf(product1, product2, product3, product4, product5)
+    ProdutctCardsRow(products = products, discount = 20.0)
 }

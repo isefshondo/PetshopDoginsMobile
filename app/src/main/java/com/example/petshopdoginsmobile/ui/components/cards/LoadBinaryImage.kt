@@ -11,14 +11,17 @@ import com.example.petshopdoginsmobile.model.entities.ProductImage
 import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @Composable
-fun LoadBinaryImage(productImage: ProductImage) {
+fun LoadBinaryImage(
+    productImage: ProductImage,
+    contentDescription: String = ""
+) {
     val imageBytes = Base64.decode(productImage.data, Base64.DEFAULT)
     val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     if (bitmap != null) {
         val imageBitmap = bitmap.asImageBitmap()
         Image(
             bitmap = imageBitmap,
-            contentDescription = null
+            contentDescription = contentDescription
         )
     } else {
         Text("Não foi possível carregar a imagem")
