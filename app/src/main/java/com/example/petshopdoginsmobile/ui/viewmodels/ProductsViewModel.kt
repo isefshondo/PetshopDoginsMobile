@@ -13,6 +13,9 @@ class ProductsViewModel : ViewModel() {
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
 
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
     init{
         fetchProducts()
     }
@@ -23,6 +26,7 @@ class ProductsViewModel : ViewModel() {
                 _products.value = ApiClient.apiService.findAll()
             }catch(e: Exception){
                 Log.i("fetchProductsError", "${e.message}")
+                _errorMessage.value = e.message
             }
         }
     }

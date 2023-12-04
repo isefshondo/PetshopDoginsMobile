@@ -5,7 +5,7 @@ data class Product(
     val productCategory: String?,
     val productColor: String?,
     val productDescription: String?,
-    val productImages: List<ProductImage>,
+    val productImages: List<String>,
     val brandName: String?,
     val productPrice: Double?,
     val productStock: Int?,

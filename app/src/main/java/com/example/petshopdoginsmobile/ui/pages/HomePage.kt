@@ -20,8 +20,11 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,18 +50,32 @@ import com.example.petshopdoginsmobile.ui.utils.CardDimensions
 import com.example.petshopdoginsmobile.ui.utils.Dimensions
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.petshopdoginsmobile.ui.components.cards.LoadBinaryImage
-import com.example.petshopdoginsmobile.ui.utils.productImageExample
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(){
     val viewModel: ProductsViewModel = viewModel()
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(viewModel.errorMessage) {
+        viewModel.errorMessage.collect { message ->
+            message?.let {
+                scope.launch {
+                    snackbarHostState.showSnackbar(message)
+                }
+            }
+        }
+    }
 
     Scaffold(
         containerColor = BgGrey,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ){
         LazyColumn(
             modifier = Modifier.fillMaxHeight(),
@@ -134,22 +151,29 @@ private fun ProductCategories(){
 @Composable
 fun ProductsSection(viewModel: ProductsViewModel) {
     val products by viewModel.products.collectAsState()
-    LoadBinaryImage(productImageExample)
-/*
+
     if(products.isNotEmpty()){
-        ProdutctCardsRow(productDomains = products, discount = 20.0)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            ProdutctCardsRow(products = products, discount = 20.0)
+        }
         Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            ProductCatalogue(productDomains = products)
+            ProductCatalogue(products = products)
         }
-    } else {
-        // mostrar um indicador de carregamento ou uma mensagem de erro
+    }else{
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Nenhum produto cadastrado")
+        }
     }
-
- */
 }
 
 @Composable

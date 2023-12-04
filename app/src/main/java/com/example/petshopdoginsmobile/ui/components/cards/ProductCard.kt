@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.model.entities.Product
+import com.example.petshopdoginsmobile.model.entities.ProductImage
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
@@ -37,6 +38,7 @@ fun ProductCard(
     product: Product,
     discountValue: Double = 0.0,
 ){
+    val productImage = ProductImage(product.productImages[0])
     val price = calculateDiscountedPrice(product.productPrice!!, discountValue)
     ElevatedCard(
         modifier = Modifier.widthIn(max = 133.dp),
@@ -49,7 +51,7 @@ fun ProductCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
-            LoadBinaryImage(productImage = product.productImages[0], "Product image")
+            LoadBinaryImage(productImage = productImage, "Product image")
             Text(
                 text = product.productDescription!!,
                 style = regular10.copy(Grey),
@@ -82,7 +84,7 @@ fun ProductCard(
 @Composable
 private fun ProductCardView(){
     val product = Product(
-        productImages = listOf(productImageExample),
+        productImages = listOf(productImageExample.data),
         productCategory = "",
         brandName = "",
         productColor = "",
@@ -115,7 +117,7 @@ fun ProdutctCardsRow(
 @Composable
 private fun ProductCardsRowPreview(){
     val product1 = Product(
-        productImages = listOf(productImageExample),
+        productImages = listOf(productImageExample.data),
         productCategory = "",
         brandName = "",
         productColor = "",
@@ -126,7 +128,7 @@ private fun ProductCardsRowPreview(){
         productPrice = 163.90
     )
     val product2 = Product(
-        productImages = listOf(productImageExample),
+        productImages = listOf(productImageExample.data),
         productCategory = "",
         brandName = "",
         productColor = "",
@@ -137,7 +139,7 @@ private fun ProductCardsRowPreview(){
         productPrice = 163.90
     )
     val product3 = Product(
-        productImages = listOf(productImageExample),
+        productImages = listOf(productImageExample.data),
         productCategory = "",
         brandName = "",
         productColor = "",
@@ -148,7 +150,7 @@ private fun ProductCardsRowPreview(){
         productPrice = 163.90
     )
     val product4 = Product(
-        productImages = listOf(productImageExample),
+        productImages = listOf(productImageExample.data),
         productCategory = "",
         brandName = "",
         productColor = "",
@@ -159,7 +161,7 @@ private fun ProductCardsRowPreview(){
         productPrice = 163.90
     )
     val product5 = Product(
-        productImages = listOf(productImageExample),
+        productImages = listOf(productImageExample.data),
         productCategory = "",
         brandName = "",
         productColor = "",
