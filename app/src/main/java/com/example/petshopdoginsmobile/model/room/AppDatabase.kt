@@ -7,11 +7,12 @@ import androidx.room.RoomDatabase
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.ProductImage
 
-@Database(entities = [Product::class, ProductImage::class],
+@Database(
+    entities = [Product::class, ProductImage::class],
     version = 1,
     exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun productDao(): ProductDao
+    abstract fun productDao():ProductDao
 
     companion object {
         @Volatile

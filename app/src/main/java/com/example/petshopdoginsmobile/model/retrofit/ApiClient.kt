@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.model.retrofit
 
-import com.example.petshopdoginsmobile.model.service.ProductService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

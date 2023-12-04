@@ -1,4 +1,4 @@
-package com.example.petshopdoginsmobile.model.service
+package com.example.petshopdoginsmobile.model.retrofit
 
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.Update
@@ -10,7 +10,6 @@ import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 interface ProductService {
-
     @GET("/dogins/products/{id}")
     fun findById(@Path("id") id: String): Call<Product>
 
