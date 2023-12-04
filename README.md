@@ -58,7 +58,7 @@ Este projeto depende da seguinte API:
 1. <p>Clone os seguintes repositórios em seu computador utilizando o comando:</p>
 Aplicativo Kotlin:
 ```
-git clone https://github.com/isefsh/petshopDogins.git
+git clone https://github.com/isefshondo/PetshopDoginsMobile.git
 ```
 API Spring Boot:
 ```
