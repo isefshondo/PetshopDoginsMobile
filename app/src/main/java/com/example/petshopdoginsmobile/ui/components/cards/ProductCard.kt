@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,7 +41,10 @@ fun ProductCard(
 ){
     val price = calculateDiscountedPrice(product.price, discountValue)
     ElevatedCard(
-        modifier = Modifier.widthIn(max = 133.dp)
+        modifier = Modifier.widthIn(max = 133.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
     ){
         Column(
             modifier = Modifier.padding(12.dp),
