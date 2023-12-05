@@ -38,6 +38,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
+import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.ui.components.buttons.CalculateShippingButton
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
@@ -50,10 +51,10 @@ import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
-import com.example.petshopdoginsmobile.ui.viewmodels.ProductPageViewModel
+import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
 
 @Composable
-fun renderDivider() {
+fun RenderDivider() {
     Spacer(modifier = Modifier.height(10.dp))
     Box (
         modifier = Modifier
@@ -65,15 +66,16 @@ fun renderDivider() {
 }
 
 @Composable
-fun renderPricesOnDiscount(productPrice: Float, discountValue: Float) {
-    val priceDiscount = (productPrice * (100f - discountValue)) / 100f;
+fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Float) {
+    val stubProductPrice = 163.90
+    val priceDiscount = ((productPrice ?: stubProductPrice) * (100f - discountValue)) / 100f
 
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(buildAnnotatedString {
             withStyle(SpanStyle(color = GreyDarkier, textDecoration = TextDecoration.LineThrough)) {
-                append("R$ $productPrice")
+                append("R$ ${productPrice?.formatToCurrency()}")
             }
         }, style = medium12)
         Spacer(modifier = Modifier.width(10.dp))
@@ -108,45 +110,62 @@ fun renderPricesOnDiscount(productPrice: Float, discountValue: Float) {
             }
         }, style = medium20)
     }
-    renderDivider()
+    RenderDivider()
 }
 
 @Composable
-fun renderPriceSection(productPrice: Float, discountValue: Float?) {
+fun RenderPriceSection(productPrice: Double?, discountValue: Float?) {
     if (discountValue !== null) {
-        renderPricesOnDiscount(productPrice, discountValue)
+        RenderPricesOnDiscount(productPrice, discountValue)
     } else {
         Row {
             Text(buildAnnotatedString {
                 withStyle(SpanStyle(color = VibrantBlue)) {
-                    append("R$ $productPrice")
+                    append("R$ ${productPrice?.formatToCurrency()}")
                 }
             }, style = medium20)
         }
-        renderDivider()
+        RenderDivider()
     }
 }
 
 @Composable
-fun renderAvailableOptions(availableOptions: List<String>, buttonSize: List<Dp>) {
+fun RenderAvailableOptions(
+    availableOptions: List<String?>,
+    buttonSize: List<Dp>
+) {
+    val stubAvailableOption = listOf<String>("P", "M", "G")
     LazyRow (
         horizontalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        items(availableOptions) {item ->
-            Box (
-                modifier = Modifier
-                    .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
-                    .size(width = buttonSize[0], height = buttonSize[1]),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(text = item, style = medium14)
+        if (availableOptions.isNullOrEmpty()) {
+            items(stubAvailableOption) {item ->
+                Box (
+                    modifier = Modifier
+                        .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
+                        .size(width = buttonSize[0], height = buttonSize[1]),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(text = item, style = medium14)
+                }
+            }
+        } else {
+            items(availableOptions) {item ->
+                Box (
+                    modifier = Modifier
+                        .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
+                        .size(width = buttonSize[0], height = buttonSize[1]),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(text = item!!, style = medium14)
+                }
             }
         }
     }
 }
 
 @Composable
-fun renderApplyCouponSection() {
+fun RenderApplyCouponSection() {
     var couponTextValue by remember { mutableStateOf("") }
     
     Row (
@@ -196,7 +215,9 @@ fun renderApplyCouponSection() {
 }
 
 @Composable
-fun renderProductDescription(brandName: String, productDescription: String) {
+fun RenderProductDescription(brandName: String?, productDescription: String?) {
+    val stubProductBrandName = "Letraset sheets containing Lorem Ipsum"
+    val stubProductDescription = "Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Pa"
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -207,14 +228,14 @@ fun renderProductDescription(brandName: String, productDescription: String) {
         Row {
             Column {
                 Text(text = "Marca", color = GreyDarkier, style = medium20)
-                Text(text = brandName, color = GreyDarkier, style = regular12)
+                Text(text = brandName ?: stubProductBrandName, color = GreyDarkier, style = regular12)
             }
         }
         Row {
             Column {
                 Text(text = "Descrição", color = GreyDarkier, style = medium20)
                 Text(
-                    text = productDescription,
+                    text = productDescription ?: stubProductDescription,
                     color = GreyDarkier,
                     style = regular12
                 )
@@ -224,23 +245,7 @@ fun renderProductDescription(brandName: String, productDescription: String) {
 }
 
 @Composable
-fun RenderLoadingScreen() {
-    Column (
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(text = "Carregando produto selecionado...", style = medium20, color = Blue)
-    }
-}
-
-@Composable
-fun ProductInfoCard(
-    productPageViewModel: ProductPageViewModel
-) {
-    val productInfo = productPageViewModel.productInformation.value
-
-    if (productInfo === null) return RenderLoadingScreen()
+fun ProductInfoCard(product: Product) {
     return Column (
         modifier = Modifier
             .shadow(
@@ -252,7 +257,7 @@ fun ProductInfoCard(
             .padding(23.dp),
     ) {
         Column {
-            renderPriceSection(productInfo.productPrice, 20f)
+            RenderPriceSection(product.productPrice, 20f)
         }
         Column {
             Text(buildAnnotatedString {
@@ -261,8 +266,8 @@ fun ProductInfoCard(
                 }
             }, style = medium20)
             Spacer(modifier = Modifier.width(15.dp))
-            val availableOptions = listOf<String>(productInfo.size)
-            renderAvailableOptions(availableOptions, buttonSize = listOf(47.36.dp, 47.36.dp))
+            val availableOptions = listOf<String?>(product.size)
+            RenderAvailableOptions(availableOptions, buttonSize = listOf(47.36.dp, 47.36.dp))
         }
         Spacer(modifier = Modifier.height(17.dp))
         Column {
@@ -273,7 +278,7 @@ fun ProductInfoCard(
             }, style = medium20)
             Spacer(modifier = Modifier.width(15.dp))
             val availableOptions = listOf<String>("Unicórnio", "Leão")
-            renderAvailableOptions(availableOptions, buttonSize = listOf(152.dp, 45.36.dp))
+            RenderAvailableOptions(availableOptions, buttonSize = listOf(152.dp, 45.36.dp))
         }
         Spacer(modifier = Modifier.height(17.dp))
         Column {
@@ -291,7 +296,7 @@ fun ProductInfoCard(
         }
         Spacer(modifier = Modifier.height(21.dp))
         Column {
-            renderApplyCouponSection()
+            RenderApplyCouponSection()
         }
         Spacer(modifier = Modifier.height(21.dp))
         Column {
@@ -312,6 +317,6 @@ fun ProductInfoCard(
             }
         }
         Spacer(modifier = Modifier.height(21.dp))
-        renderProductDescription(productInfo.brandName, productInfo.productDescription)
+        RenderProductDescription(product.brandName, product.productDescription)
     }
 }

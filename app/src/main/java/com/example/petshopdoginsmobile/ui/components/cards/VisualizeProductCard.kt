@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -29,58 +28,32 @@ import com.example.petshopdoginsmobile.R
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.ui.components.buttons.IconButton
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
-import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.theme.regular14
 import android.util.Base64
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import com.example.petshopdoginsmobile.ui.viewmodels.ProductPageViewModel
-
-fun convertImageByteArrayToBitmap(imageData: String?): ImageBitmap? {
-    return try {
-        val binaryData: ByteArray = Base64.decode(imageData, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(binaryData, 0, binaryData.size).asImageBitmap()
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.petshopdoginsmobile.model.entities.Product
+import com.example.petshopdoginsmobile.model.entities.ProductImage
+import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 
 @Composable
-fun LoadProductImages(productImages: List<String?>) {
+fun LoadProductImages(productImages: List<String>) {
     if (productImages.isNotEmpty()) {
         LazyRow (
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(productImages) {image ->
-                Box (
-                    modifier = Modifier
-                        .border(width = 2.dp, color = Blue, shape = RoundedCornerShape(10.dp))
-                        .clip(RoundedCornerShape(10.dp))
-                        .size(50.dp)
-                ) {
-                    if (convertImageByteArrayToBitmap(image) !== null) {
-                        Image(
-                            bitmap = convertImageByteArrayToBitmap(image)!!,
-                            contentDescription = "Image of product",
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_cat),
-                            contentDescription = "Image of product",
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    }
-                }
+                LoadBinaryImage(productImage = ProductImage(image))
             }
         }
     }
@@ -91,9 +64,9 @@ fun VisualizeProductCard(
     productRating: Float,
     reviewQuantity: Int,
     allProductComments: Int,
-    productPageViewModel: ProductPageViewModel
+    product: Product,
 ) {
-    val productInfo = productPageViewModel.productInformation.value
+    val productImage = ProductImage(product.productImages[0])
     Box {
         Column {
             Row (
@@ -228,7 +201,7 @@ fun VisualizeProductCard(
             ) {
                 Text(text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = GreyDarkier)) {
-                        append(productInfo?.productName)
+                        append(product.productName)
                     }
                 }, style = medium20)
             }
@@ -265,19 +238,7 @@ fun VisualizeProductCard(
                             .fillMaxHeight(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        if (productInfo?.productImages !== null) {
-                            Image(
-                                bitmap = convertImageByteArrayToBitmap(productInfo.productImages[0])!!,
-                                contentDescription = "Image of product",
-                                modifier = Modifier.fillMaxSize(),
-                            )
-                        } else {
-                            Image(
-                                painter = painterResource(id = R.drawable.img_cat),
-                                contentDescription = "Image of product",
-                                modifier = Modifier.fillMaxSize(),
-                            )
-                        }
+                        LoadBinaryImage(productImage = productImage)
                     }
                     Box (
                         modifier = Modifier
@@ -301,7 +262,7 @@ fun VisualizeProductCard(
             ) {
                 Column (modifier = Modifier.weight(.75F)) {}
                 Column (modifier = Modifier.weight(1F)) {
-                    LoadProductImages(productInfo!!.productImages)
+                    LoadProductImages(product.productImages)
                 }
             }
         }

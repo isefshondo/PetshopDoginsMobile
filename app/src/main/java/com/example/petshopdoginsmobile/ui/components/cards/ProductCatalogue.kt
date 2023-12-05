@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,12 +22,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.petshopdoginsmobile.R
-import com.example.petshopdoginsmobile.domain.Product
+import com.example.petshopdoginsmobile.model.entities.Product
+import com.example.petshopdoginsmobile.model.entities.ProductImage
 import com.example.petshopdoginsmobile.ui.components.buttons.ClickableLinkText
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.theme.Green
@@ -41,6 +39,7 @@ import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.CardDimensions
 import com.example.petshopdoginsmobile.ui.utils.Dimensions
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @Composable
 fun ProductCatalogue(
@@ -128,6 +127,7 @@ private fun ProductItem(
     product: Product,
     shippingCost: Double = 0.0,
 ){
+    val productImage = ProductImage(product.productImages[0])
     Column(
         modifier = Modifier
             .widthIn(max = 160.dp)
@@ -135,21 +135,18 @@ private fun ProductItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
-        Image(
-            painter = painterResource(id = product.image),
-            contentDescription = "Product image"
-        )
+        LoadBinaryImage(productImage = productImage, "Product image")
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ){
             Text(
                 modifier = Modifier.height(16.dp),
-                text = product.price.formatToCurrency(),
+                text = product.productPrice!!.formatToCurrency(),
                 style = medium14.copy(VibrantBlue)
             )
             Text(
-                text = product.description,
+                text = product.productDescription!!,
                 style = regular10.copy(Grey),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -167,29 +164,59 @@ private fun ProductItem(
 @Composable
 private fun ProductCataloguePreview(){
     val product1 = Product(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     val product2 = Product(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     val product3 = Product(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     val product4 = Product(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     val product5 = Product(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     val products = listOf(product1, product2, product3, product4, product5)
     ProductCatalogue(products = products)
@@ -199,9 +226,15 @@ private fun ProductCataloguePreview(){
 @Composable
 private fun ProductItemPreview(){
     val product = Product(
-        image = R.drawable.img_cat,
-        description = "Fantasia para Gatos de xxxx Unicórnio e Leão",
-        price = 163.90
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
     )
     ProductItem(product)
 }
