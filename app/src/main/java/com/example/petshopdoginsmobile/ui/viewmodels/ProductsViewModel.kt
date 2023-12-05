@@ -55,7 +55,7 @@ class ProductsViewModel : ViewModel() {
     }
 
     fun fetchSpecificProduct() {
-        val productId = _selectedProductId.value
+        val productId = selectedProductId.value
         if (productId !== null) {
             viewModelScope.launch {
                 try {

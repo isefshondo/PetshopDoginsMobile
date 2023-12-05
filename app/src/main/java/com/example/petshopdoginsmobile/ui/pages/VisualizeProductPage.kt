@@ -1,5 +1,6 @@
 package com.example.petshopdoginsmobile.ui.pages
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.domain.StaticProduct
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
@@ -38,7 +41,7 @@ import com.example.petshopdoginsmobile.ui.theme.White
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 
 @Composable
-fun VisualizeProductPage(productId: String) {
+fun VisualizeProductPage(navController: NavController, productId: String) {
     val staticProductInfo = StaticProduct(
         productRating = 4.5f,
         productRatingQuantity = 129,
@@ -47,12 +50,12 @@ fun VisualizeProductPage(productId: String) {
     val viewModel: ProductsViewModel = viewModel()
     viewModel.setSelectedProductId(productId)
     
-    LaunchedEffect(viewModel.selectedProductId) {
+    LaunchedEffect(viewModel.selectedProductId.value) {
         viewModel.fetchSpecificProduct()
     }
 
     val product by viewModel.product.collectAsState()
-    
+
     Column {
         // Header
         Column (
@@ -83,6 +86,7 @@ fun VisualizeProductPage(productId: String) {
                     product
                 )
             }
+
             Row {
                 ProductInfoCard(product)
             }
@@ -115,5 +119,13 @@ fun VisualizeProductPage(productId: String) {
                 }
             }
         }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun VisualizeProductPagePreview() {
+    PetshopDoginsMobileTheme {
+        VisualizeProductPage(productId = "", navController = rememberNavController())
     }
 }

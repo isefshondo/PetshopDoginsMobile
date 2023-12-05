@@ -53,12 +53,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(){
+fun HomePage(navController: NavController){
     val viewModel: ProductsViewModel = viewModel()
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -97,7 +99,7 @@ fun HomePage(){
                     )
                 }
             }
-            item { ProductsSection(viewModel) }
+            item { ProductsSection(viewModel, navController) }
             item { PetTypes() }
         }
     }
@@ -149,7 +151,7 @@ private fun ProductCategories(){
 }
 
 @Composable
-fun ProductsSection(viewModel: ProductsViewModel) {
+fun ProductsSection(viewModel: ProductsViewModel, navController: NavController) {
     val products by viewModel.products.collectAsState()
 
     if(products.isNotEmpty()){
@@ -157,7 +159,7 @@ fun ProductsSection(viewModel: ProductsViewModel) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            ProdutctCardsRow(products = products, discount = 20.0)
+            ProdutctCardsRow(products = products, discount = 20.0, navController = navController)
         }
         Spacer(modifier = Modifier.height(Dimensions.VERTICAL_SPACING))
         Row(
@@ -225,5 +227,5 @@ private fun PetTypes(){
 @Preview
 @Composable
 private fun HomePagePreview(){
-    HomePage()
+    HomePage(navController = rememberNavController())
 }

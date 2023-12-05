@@ -1,5 +1,6 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.ProductImage
 import com.example.petshopdoginsmobile.ui.theme.Grey
@@ -35,13 +38,16 @@ import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @Composable
 fun ProductCard(
+    navController: NavController,
     product: Product,
     discountValue: Double = 0.0,
 ){
     val productImage = ProductImage(product.productImages[0])
     val price = calculateDiscountedPrice(product.productPrice!!, discountValue)
     ElevatedCard(
-        modifier = Modifier.widthIn(max = 133.dp),
+        modifier = Modifier
+            .widthIn(max = 133.dp)
+            .clickable { navController.navigate("visualize-product/${product.id}") },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
@@ -95,6 +101,7 @@ private fun ProductCardView(){
         productPrice = 163.90
     )
     ProductCard(
+        rememberNavController(),
         product = product,
         discountValue = 20.0
     )
@@ -102,13 +109,14 @@ private fun ProductCardView(){
 
 @Composable
 fun ProdutctCardsRow(
+    navController: NavController,
     products: List<Product>,
     discount: Double = 0.0
 ){
     LazyRow {
         items(products) { product ->
             Spacer(modifier = Modifier.width(20.dp))
-            ProductCard(product = product, discountValue = discount)
+            ProductCard(product = product, discountValue = discount, navController = navController)
         }
     }
 }
@@ -172,5 +180,5 @@ private fun ProductCardsRowPreview(){
         productPrice = 163.90
     )
     val products = listOf(product1, product2, product3, product4, product5)
-    ProdutctCardsRow(products = products, discount = 20.0)
+    ProdutctCardsRow(products = products, discount = 20.0, navController = rememberNavController())
 }

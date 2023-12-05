@@ -167,7 +167,7 @@ fun RenderAvailableOptions(
 @Composable
 fun RenderApplyCouponSection() {
     var couponTextValue by remember { mutableStateOf("") }
-    
+
     Row (
         modifier = Modifier
             .fillMaxWidth()

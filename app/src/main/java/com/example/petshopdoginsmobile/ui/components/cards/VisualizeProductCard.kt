@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -30,21 +29,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.ui.components.buttons.IconButton
-import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.theme.regular14
-import android.util.Base64
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.ProductImage
-import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 
 @Composable
 fun LoadProductImages(productImages: List<String>) {
