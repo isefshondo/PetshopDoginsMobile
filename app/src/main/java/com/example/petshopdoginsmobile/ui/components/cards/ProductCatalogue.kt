@@ -1,5 +1,6 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.ProductImage
 import com.example.petshopdoginsmobile.ui.components.buttons.ClickableLinkText
@@ -43,6 +46,7 @@ import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @Composable
 fun ProductCatalogue(
+    navController: NavController,
     products: List<Product>,
     shippingCost: Double = 0.0
 ){
@@ -98,7 +102,8 @@ fun ProductCatalogue(
                                     ){
                                         ProductItem(
                                             product = products[productIndex],
-                                            shippingCost = shippingCost
+                                            shippingCost = shippingCost,
+                                            navController = navController
                                         )
                                     }
                                 }
@@ -124,6 +129,7 @@ fun ProductCatalogue(
 
 @Composable
 private fun ProductItem(
+    navController: NavController,
     product: Product,
     shippingCost: Double = 0.0,
 ){
@@ -131,7 +137,8 @@ private fun ProductItem(
     Column(
         modifier = Modifier
             .widthIn(max = 160.dp)
-            .padding(12.dp),
+            .padding(12.dp)
+            .clickable { navController.navigate("visualize-product/${product.id}") },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
@@ -219,7 +226,7 @@ private fun ProductCataloguePreview(){
         productPrice = 163.90
     )
     val products = listOf(product1, product2, product3, product4, product5)
-    ProductCatalogue(products = products)
+    ProductCatalogue(products = products, navController = rememberNavController())
 }
 
 @Preview
@@ -236,5 +243,5 @@ private fun ProductItemPreview(){
         productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
         productPrice = 163.90
     )
-    ProductItem(product)
+    ProductItem(product = product, navController = rememberNavController())
 }

@@ -166,7 +166,7 @@ fun ProductsSection(viewModel: ProductsViewModel, navController: NavController) 
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            ProductCatalogue(products = products)
+            ProductCatalogue(products = products, navController = navController)
         }
     }else{
         Row(
