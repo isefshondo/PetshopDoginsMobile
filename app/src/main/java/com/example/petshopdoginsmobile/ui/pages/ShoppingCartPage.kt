@@ -1,11 +1,16 @@
 package com.example.petshopdoginsmobile.ui.pages
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,13 +20,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.domain.Item
+import com.example.petshopdoginsmobile.ui.components.buttons.CalculateShippingButton
+import com.example.petshopdoginsmobile.ui.components.cards.CartBottomCard
 import com.example.petshopdoginsmobile.ui.components.cards.CartProductCard
 import com.example.petshopdoginsmobile.ui.components.cards.OrderSummaryCard
+import com.example.petshopdoginsmobile.ui.components.cards.RenderApplyCouponSection
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -79,7 +89,14 @@ fun ShoppingCartPage() {
     val couponDiscount: (String?, Double) -> Double = { _, _ -> 0.0 }
 
     Scaffold(
-        modifier = Modifier.background(Grey)
+        modifier = Modifier.background(Grey),
+        bottomBar = {
+            CartBottomCard(
+                btnLabel = "Finalizar Compra",
+                btnOnClick = {},
+                totalValue = totalValue
+            )
+        }
     ) { innerPadding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,6 +107,8 @@ fun ShoppingCartPage() {
                 .padding(innerPadding)
         ) {
             LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(itemViewModels.size) { index ->
@@ -111,15 +130,36 @@ fun ShoppingCartPage() {
                         }
                     )
                 }
-            }
 
-            OrderSummaryCard(
-                totalItems = totalItems,
-                totalValue = totalValue,
-                shippingCost = 0.0,
-                coupons = coupons,
-                couponDiscount = couponDiscount
-            )
+                item {
+                    Column(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(5.dp))
+                            .fillMaxWidth(0.9f)
+                            .background(Color.White)
+                    ){
+                        CalculateShippingButton(onClick = {})
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Column(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(5.dp))
+                            .fillMaxWidth(0.9f)
+                            .background(Color.White)
+                    ){
+                        RenderApplyCouponSection()
+                    }
+                }
+                item {
+                    OrderSummaryCard(
+                        totalItems = totalItems,
+                        totalValue = totalValue,
+                        shippingCost = 0.0,
+                        coupons = coupons,
+                        couponDiscount = couponDiscount
+                    )
+                }
+            }
         }
 
     }
