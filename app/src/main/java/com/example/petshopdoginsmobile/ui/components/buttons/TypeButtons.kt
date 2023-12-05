@@ -4,21 +4,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +24,7 @@ import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.regular10
 
 @Composable
-fun CategoryButton(
+fun TypeButton(
     modifier: Modifier = Modifier,
     icon: Int,
     text: String,
@@ -39,24 +36,18 @@ fun CategoryButton(
         modifier = Modifier
             .clickable{ onClick() }
     ) {
-        ElevatedCard(
-            shape = CircleShape,
-            elevation = CardDefaults.cardElevation(2.dp),
-            modifier = Modifier.size(50.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
-
+        IconButton(
+            modifier = Modifier
+                .size(70.dp)
+                .clip(shape = CircleShape),
+            onClick = onClick
         ) {
-            IconButton(
-                modifier = Modifier
-                    .padding(7.dp),
-                onClick = onClick
-            ) {
-                Image(
-                    painter = painterResource(id = icon),
-                    contentDescription = "Product category icon"
-                )
-            }
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = "Pet type"
+            )
         }
+
         Text(
             text = text,
             style = regular10.copy(Grey)
@@ -66,22 +57,23 @@ fun CategoryButton(
 
 @Preview
 @Composable
-private fun CategoryButtonPreview(){
-    CategoryButton(
-        icon = R.drawable.ic_accessories,
-        text = "Acessórios",
-        onClick = {}
-    )
+private fun TypeButtonPreview(){
+    TypeButton(icon = R.drawable.ic_type_dog, text = "Cachorro", onClick = {})
 }
 
 @Composable
-fun CategoryButtonsRow(
+fun TypeButtonsRow(
+    modifier: Modifier = Modifier,
     buttons: List<Pair<Int, String>>
 ){
-    LazyRow{
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ){
         items(buttons) { (icon, text) ->
-            Spacer(modifier = Modifier.width(20.dp))
-            CategoryButton(
+            TypeButton(
                 icon = icon,
                 text = text,
                 onClick = {}
@@ -92,15 +84,13 @@ fun CategoryButtonsRow(
 
 @Preview
 @Composable
-private fun CategoryButtonsRowPreview(){
-    CategoryButtonsRow(
+private fun TypeButtonsRowPreview(){
+    TypeButtonsRow(
         buttons = listOf(
-            Pair(R.drawable.ic_accessories, "Acessórios"),
-            Pair(R.drawable.ic_accessories, "Acessórios"),
-            Pair(R.drawable.ic_accessories, "Acessórios"),
-            Pair(R.drawable.ic_accessories, "Acessórios"),
-            Pair(R.drawable.ic_accessories, "Acessórios"),
-            Pair(R.drawable.ic_accessories, "Acessórios")
+            Pair(R.drawable.ic_type_dog, "Cachorro"),
+            Pair(R.drawable.ic_type_cat, "Gatos"),
+            Pair(R.drawable.ic_type_puppies, "Filhotes"),
+            Pair(R.drawable.ic_other_types, "Outros pets")
         )
     )
 }

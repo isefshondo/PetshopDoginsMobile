@@ -1,12 +1,20 @@
 package com.example.petshopdoginsmobile
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.petshopdoginsmobile.ui.pages.HomePage
+import com.example.petshopdoginsmobile.ui.pages.VisualizeProductPage
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,6 +27,21 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val navController = rememberNavController()
+                    NavHost(navController, startDestination = "home"){
+                        composable("home") { HomePage(navController) }
+                        composable("visualize-product/{productId}") { backStackEntry ->
+                            val productId = backStackEntry.arguments?.getString("productId")
+                            val context = LocalContext.current
+                            if(productId != null) {
+                                VisualizeProductPage(navController, productId)
+                            } else {
+                                LaunchedEffect(Unit) {
+                                    Toast.makeText(context, "Erro: ID do produto inválido.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

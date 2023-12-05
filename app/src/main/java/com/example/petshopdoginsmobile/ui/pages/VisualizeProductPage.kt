@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -23,10 +22,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.domain.StaticProduct
+import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
@@ -35,16 +34,27 @@ import com.example.petshopdoginsmobile.ui.components.cards.ProductInfoCard
 import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.White
-import com.example.petshopdoginsmobile.ui.viewmodels.ProductPageViewModel
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 
 @Composable
-fun VisualizeProductPage() {
+fun VisualizeProductPage(navController: NavController, productId: String) {
     val staticProductInfo = StaticProduct(
         productRating = 4.5f,
         productRatingQuantity = 129,
         productComments = 50
     )
-    val productPageViewModel: ProductPageViewModel = viewModel()
+
+    val product = Product(
+        productImages = listOf(productImageExample.data),
+        productCategory = "",
+        brandName = "",
+        productColor = "",
+        productName = "",
+        productStock = 10,
+        size = "",
+        productDescription = "Fantasia para Gatos de xxxx Unicórnio e Leão",
+        productPrice = 163.90
+    )
     Column {
         // Header
         Column (
@@ -72,11 +82,12 @@ fun VisualizeProductPage() {
                     productRating = staticProductInfo.productRating,
                     reviewQuantity = staticProductInfo.productRatingQuantity,
                     allProductComments = staticProductInfo.productComments,
-                    productPageViewModel,
+                    product
                 )
             }
+
             Row {
-                ProductInfoCard(productPageViewModel)
+                ProductInfoCard(product)
             }
         }
         // Buy Button Column
@@ -114,6 +125,6 @@ fun VisualizeProductPage() {
 @Preview(showBackground = true)
 fun VisualizeProductPagePreview() {
     PetshopDoginsMobileTheme {
-        VisualizeProductPage()
+        VisualizeProductPage(productId = "", navController = rememberNavController())
     }
 }
