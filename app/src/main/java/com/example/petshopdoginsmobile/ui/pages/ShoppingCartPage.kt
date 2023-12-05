@@ -34,6 +34,7 @@ import com.example.petshopdoginsmobile.ui.components.cards.CartBottomCard
 import com.example.petshopdoginsmobile.ui.components.cards.CartProductCard
 import com.example.petshopdoginsmobile.ui.components.cards.OrderSummaryCard
 import com.example.petshopdoginsmobile.ui.components.cards.RenderApplyCouponSection
+import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
@@ -93,6 +94,14 @@ fun ShoppingCartPage(navController: NavController) {
 
     Scaffold(
         containerColor = BgGrey,
+        topBar = {
+            PageHeader(
+                isHomePage = false,
+                headerTitle = "Carrinho de Compra",
+                handleViewCartEvent = {},
+                navController = navController
+            )
+        },
         bottomBar = {
             CartBottomCard(
                 btnLabel = "Finalizar Compra",
@@ -106,9 +115,9 @@ fun ShoppingCartPage(navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxSize()
-                .background(Grey)
                 .padding(innerPadding)
         ) {
+            Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,

@@ -28,6 +28,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
@@ -42,7 +44,7 @@ fun RenderIcon(icon: Painter, iconDescription: String, onClick: () -> Unit) {
     Box (
         modifier = Modifier
             .size(20.dp)
-            .clickable { onClick }
+            .clickable { onClick() }
     ) {
         Image(
             painter = icon,
@@ -57,6 +59,7 @@ fun PageHeader(
     isHomePage: Boolean,
     headerTitle: String,
     handleViewCartEvent: () -> Unit,
+    navController: NavController
 ) {
     Row (
         modifier = Modifier
@@ -73,8 +76,9 @@ fun PageHeader(
             Row (horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                 RenderIcon(
                     icon = painterResource(id = R.drawable.arrow_back_icon),
-                    iconDescription = "Go back to the last page"
-                ) {}
+                    iconDescription = "Go back to the last page",
+                    onClick = { navController.popBackStack() }
+                )
                 Text(text = headerTitle, style = regular14, color = VibrantBlue)
             }
             Row (horizontalArrangement = Arrangement.spacedBy(25.dp)) {
@@ -84,8 +88,9 @@ fun PageHeader(
                 ) {}
                 RenderIcon(
                     icon = painterResource(id = R.drawable.cart_icon),
-                    iconDescription = "Visualize cart page..."
-                ) {}
+                    iconDescription = "Visualize cart page...",
+                    onClick = handleViewCartEvent
+                )
             }
         } else {
             Column (
@@ -129,8 +134,9 @@ fun PageHeader(
             ) {
                 RenderIcon(
                     icon = painterResource(id = R.drawable.cart_icon),
-                    iconDescription = "Visualize cart page..."
-                ) {}
+                    iconDescription = "Visualize cart page...",
+                    onClick = handleViewCartEvent
+                )
             }
         }
     }
@@ -144,7 +150,8 @@ fun HeaderPreview() {
         PageHeader(
             isHomePage = true,
             headerTitle,
-            handleViewCartEvent = {}
+            handleViewCartEvent = {},
+            navController = rememberNavController()
         )
     }
 }

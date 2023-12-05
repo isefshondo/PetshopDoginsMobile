@@ -3,8 +3,10 @@ package com.example.petshopdoginsmobile.ui.pages
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.ui.components.buttons.BackToStart
 import com.example.petshopdoginsmobile.ui.components.cards.PurchaseCompleted
+import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.utils.Dimensions
 
@@ -26,7 +29,15 @@ import com.example.petshopdoginsmobile.ui.utils.Dimensions
 @Composable
 fun PurchaseConfirmPage(navController: NavController) {
     Scaffold(
-        containerColor = BgGrey
+        containerColor = BgGrey,
+        topBar = {
+            PageHeader(
+                isHomePage = false,
+                headerTitle = "Carrinho de Compra",
+                handleViewCartEvent = { navController.navigate("shopping-cart") },
+                navController = navController
+            )
+        }
     ) { innerPadding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -37,12 +48,13 @@ fun PurchaseConfirmPage(navController: NavController) {
                 .padding(innerPadding)
                 .padding(start = 22.dp, end = 22.dp) // Adicionando margem aos cantos
         ) {
+            Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(Dimensions.VERTICAL_SPACING)
             ) {
                 item { PurchaseCompleted() }
-                item { BackToStart {navController.navigate("home")}}
+                item { BackToStart(onClick = {navController.navigate("home")})}
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,9 +56,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(navController: NavController){
@@ -78,30 +79,48 @@ fun HomePage(navController: NavController){
     Scaffold(
         containerColor = BgGrey,
         snackbarHost = { SnackbarHost(snackbarHostState) },
-    ){
-        LazyColumn(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.spacedBy(Dimensions.VERTICAL_SPACING)
-        ) {
-            item { Hero() }
-            item { ProductCategories() }
-            item {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = Dimensions.SCREEN_PADDING)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    PromotionCard(
-                        discount = "20% OFF + Frete grátis ",
-                        description = "na primeira compra",
-                        onClick = {}
-                    )
-                }
-            }
-            item { ProductsSection(viewModel, navController) }
-            item { PetTypes() }
+        topBar = {
+            PageHeader(
+                isHomePage = true,
+                headerTitle = "",
+                handleViewCartEvent = { navController.navigate("shopping-cart") },
+                navController = navController
+            )
         }
+    ){ innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ){
+            Spacer(modifier = Modifier.height(10.dp))
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(Dimensions.VERTICAL_SPACING)
+            ) {
+                item {
+                    Hero()
+                }
+                item { ProductCategories() }
+                item {
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = Dimensions.SCREEN_PADDING)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        PromotionCard(
+                            discount = "20% OFF + Frete grátis ",
+                            description = "na primeira compra",
+                            onClick = {}
+                        )
+                    }
+                }
+                item { ProductsSection(viewModel, navController) }
+                item { PetTypes() }
+            }
+        }
+
     }
 }
 

@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController, startDestination = "shopping-cart"){
+                    NavHost(navController, startDestination = "home"){
                         composable("home") { HomePage(navController) }
                         composable("visualize-product/{productId}") { backStackEntry ->
                             val productId = backStackEntry.arguments?.getString("productId")

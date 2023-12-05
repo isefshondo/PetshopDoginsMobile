@@ -62,7 +62,7 @@ fun OrderSummaryCard(
             .width(d.cardWidth)
             .heightIn(min = d.cardHeight)
             .widthIn(max = 360.dp)
-            .border(1.dp, Grey),
+            .border(width = 1.dp, color = Grey, shape = RoundedCornerShape(10.dp)),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ){
         Column(
