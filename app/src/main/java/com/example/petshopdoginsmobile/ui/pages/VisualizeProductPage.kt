@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.ui.pages
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,108 +23,113 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.domain.StaticProduct
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
-import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.components.cards.ProductInfoCard
 import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.Blue
+import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.White
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 
 @Composable
-fun VisualizeProductPage(navController: NavController, productId: String) {
+fun RenderLoadingPage() {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .background(White),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(text = "Carregando seu produto...", color = VibrantBlue, style = medium20)
+    }
+}
+
+@Composable
+fun VisualizeProductPage(navController: NavController, productId: String, viewModel: ProductsViewModel) {
     val staticProductInfo = StaticProduct(
         productRating = 4.5f,
         productRatingQuantity = 129,
         productComments = 50
     )
-    val viewModel: ProductsViewModel = viewModel()
-    viewModel.setSelectedProductId(productId)
-    
-    LaunchedEffect(viewModel.selectedProductId.value) {
-        viewModel.fetchSpecificProduct()
-    }
 
     val product by viewModel.product.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
-    Column {
-        // Header
-        Column (
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            PageHeader (
-                isHomePage = false,
-                headerTitle = "Detalhes",
-                handleViewCartEvent = { /* TODO */ },
-            )
-        }
-        // Visualize product and its info
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(2F)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            Row (
+    if (isLoading) {
+        RenderLoadingPage()
+    } else {
+        Column {
+            // Header
+            Column(
                 modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 29.dp)
+                    .fillMaxWidth(),
             ) {
-                VisualizeProductCard(
-                    productRating = staticProductInfo.productRating,
-                    reviewQuantity = staticProductInfo.productRatingQuantity,
-                    allProductComments = staticProductInfo.productComments,
-                    product
+                PageHeader(
+                    isHomePage = false,
+                    headerTitle = "Detalhes",
+                    handleViewCartEvent = { /* TODO */ },
                 )
             }
-
-            Row {
-                ProductInfoCard(product)
-            }
-        }
-        // Buy Button Column
-        Column (
-            modifier = Modifier
-                .shadow(elevation = 18.5.dp)
-                .background(White)
-                .fillMaxWidth()
-                .weight(.25F),
-        ) {
-            Row (
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+            // Visualize product and its info
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2F)
+                    .verticalScroll(rememberScrollState()),
             ) {
-                Box (
+                Row(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = Blue, shape = RoundedCornerShape(10.dp))
-                        .clickable { },
-                    contentAlignment = Alignment.Center,
+                        .padding(horizontal = 20.dp, vertical = 29.dp)
                 ) {
-                    Text(buildAnnotatedString {
-                        withStyle(SpanStyle(BlueDark)) {
-                            append("Comprar")
-                        }
-                    }, style = medium20)
+                    VisualizeProductCard(
+                        productRating = staticProductInfo.productRating,
+                        reviewQuantity = staticProductInfo.productRatingQuantity,
+                        allProductComments = staticProductInfo.productComments,
+                        product
+                    )
+                }
+
+                Row {
+                    ProductInfoCard(product)
+                }
+            }
+            // Buy Button Column
+            Column(
+                modifier = Modifier
+                    .shadow(elevation = 18.5.dp)
+                    .background(White)
+                    .fillMaxWidth()
+                    .weight(.25F),
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = Blue, shape = RoundedCornerShape(10.dp))
+                            .clickable { },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(buildAnnotatedString {
+                            withStyle(SpanStyle(BlueDark)) {
+                                append("Comprar")
+                            }
+                        }, style = medium20)
+                    }
                 }
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun VisualizeProductPagePreview() {
-    PetshopDoginsMobileTheme {
-        VisualizeProductPage(productId = "", navController = rememberNavController())
+    LaunchedEffect(key1 = productId) {
+        viewModel.setSelectedProductId(productId)
+        viewModel.fetchSpecificProduct()
     }
 }

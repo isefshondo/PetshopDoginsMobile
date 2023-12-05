@@ -68,31 +68,38 @@ fun RenderDivider() {
 @Composable
 fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Float) {
     val stubProductPrice = 163.90
+    val formattedProductPrice = productPrice?.formatToCurrency() ?: "N/A"
     val priceDiscount = ((productPrice ?: stubProductPrice) * (100f - discountValue)) / 100f
 
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(buildAnnotatedString {
-            withStyle(SpanStyle(color = GreyDarkier, textDecoration = TextDecoration.LineThrough)) {
-                append("R$ ${productPrice?.formatToCurrency()}")
-            }
-        }, style = medium12)
+        Text(
+            buildAnnotatedString {
+                withStyle(SpanStyle(color = GreyDarkier, textDecoration = TextDecoration.LineThrough)) {
+                    append("R$ $formattedProductPrice")
+                }
+            },
+            style = medium12
+        )
         Spacer(modifier = Modifier.width(10.dp))
-        Box (
+        Box(
             modifier = Modifier
                 .background(color = SoftBlue, shape = RoundedCornerShape(5.dp))
                 .padding(horizontal = 5.dp),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
-            Text(buildAnnotatedString {
-                withStyle(SpanStyle(color = VibrantBlue)) {
-                    append("-$discountValue%")
-                }
-            }, style = regular12)
+            Text(
+                buildAnnotatedString {
+                    withStyle(SpanStyle(color = VibrantBlue)) {
+                        append("-$discountValue%")
+                    }
+                },
+                style = regular12
+            )
         }
         Spacer(modifier = Modifier.width(10.dp))
-        Box (
+        Box(
             modifier = Modifier
                 .size(15.dp)
         ) {
@@ -104,29 +111,16 @@ fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Float) {
         }
     }
     Row {
-        Text(buildAnnotatedString {
-            withStyle(SpanStyle(color = VibrantBlue)) {
-                append("R$ $priceDiscount")
-            }
-        }, style = medium20)
+        Text(
+            buildAnnotatedString {
+                withStyle(SpanStyle(color = VibrantBlue)) {
+                    append("R$ $priceDiscount")
+                }
+            },
+            style = medium20
+        )
     }
     RenderDivider()
-}
-
-@Composable
-fun RenderPriceSection(productPrice: Double?, discountValue: Float?) {
-    if (discountValue !== null) {
-        RenderPricesOnDiscount(productPrice, discountValue)
-    } else {
-        Row {
-            Text(buildAnnotatedString {
-                withStyle(SpanStyle(color = VibrantBlue)) {
-                    append("R$ ${productPrice?.formatToCurrency()}")
-                }
-            }, style = medium20)
-        }
-        RenderDivider()
-    }
 }
 
 @Composable
@@ -134,13 +128,13 @@ fun RenderAvailableOptions(
     availableOptions: List<String?>,
     buttonSize: List<Dp>
 ) {
-    val stubAvailableOption = listOf<String>("P", "M", "G")
-    LazyRow (
+    val stubAvailableOption = listOf("P", "M", "G")
+    LazyRow(
         horizontalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         if (availableOptions.isNullOrEmpty()) {
-            items(stubAvailableOption) {item ->
-                Box (
+            items(stubAvailableOption) { item ->
+                Box(
                     modifier = Modifier
                         .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
                         .size(width = buttonSize[0], height = buttonSize[1]),
@@ -150,17 +144,36 @@ fun RenderAvailableOptions(
                 }
             }
         } else {
-            items(availableOptions) {item ->
-                Box (
+            items(availableOptions.filterNotNull()) { item ->
+                Box(
                     modifier = Modifier
                         .border(width = 2.dp, color = Grey, shape = RoundedCornerShape(10.dp))
                         .size(width = buttonSize[0], height = buttonSize[1]),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(text = item!!, style = medium14)
+                    Text(text = item, style = medium14)
                 }
             }
         }
+    }
+}
+
+@Composable
+fun RenderPriceSection(productPrice: Double?, discountValue: Float?) {
+    if (discountValue !== null) {
+        RenderPricesOnDiscount(productPrice, discountValue)
+    } else {
+        Row {
+            Text(
+                buildAnnotatedString {
+                    withStyle(SpanStyle(color = VibrantBlue)) {
+                        append("R$ ${productPrice?.formatToCurrency() ?: "N/A"}")
+                    }
+                },
+                style = medium20
+            )
+        }
+        RenderDivider()
     }
 }
 
