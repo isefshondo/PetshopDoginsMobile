@@ -16,6 +16,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.ui.pages.HomePage
+import com.example.petshopdoginsmobile.ui.pages.PurchaseConfirmPage
+import com.example.petshopdoginsmobile.ui.pages.ShoppingCartPage
 import com.example.petshopdoginsmobile.ui.pages.VisualizeProductPage
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController, startDestination = "home"){
+                    NavHost(navController, startDestination = "shopping-cart"){
                         composable("home") { HomePage(navController) }
                         composable("visualize-product/{productId}") { backStackEntry ->
                             val viewModel: ProductsViewModel by viewModels()
@@ -45,6 +47,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+                        composable("shopping-cart") { ShoppingCartPage(navController) }
+                        composable("purchase-confirm") { PurchaseConfirmPage(navController) }
                     }
                 }
             }

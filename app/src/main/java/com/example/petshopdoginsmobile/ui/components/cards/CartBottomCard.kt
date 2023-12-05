@@ -1,5 +1,6 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -46,7 +48,8 @@ fun CartBottomCard(
                     strokeWidth
                 )
             },
-        shape = RoundedCornerShape(0.dp),
+        shape = RoundedCornerShape(5.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ){
         Column(
             modifier = Modifier.fillMaxWidth(),

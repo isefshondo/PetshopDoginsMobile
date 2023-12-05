@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,7 +62,8 @@ fun OrderSummaryCard(
             .width(d.cardWidth)
             .heightIn(min = d.cardHeight)
             .widthIn(max = 360.dp)
-            .border(1.dp, Grey)
+            .border(1.dp, Grey),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ){
         Column(
             verticalArrangement = Arrangement.spacedBy(d.screenWidth * 0.027f),
