@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.domain.Item
 import com.example.petshopdoginsmobile.ui.components.buttons.CalculateShippingButton
@@ -32,13 +34,14 @@ import com.example.petshopdoginsmobile.ui.components.cards.CartBottomCard
 import com.example.petshopdoginsmobile.ui.components.cards.CartProductCard
 import com.example.petshopdoginsmobile.ui.components.cards.OrderSummaryCard
 import com.example.petshopdoginsmobile.ui.components.cards.RenderApplyCouponSection
+import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingCartPage() {
+fun ShoppingCartPage(navController: NavController) {
     val items = listOf(
         Item(
             image = painterResource(id = R.drawable.img_cat),
@@ -89,11 +92,11 @@ fun ShoppingCartPage() {
     val couponDiscount: (String?, Double) -> Double = { _, _ -> 0.0 }
 
     Scaffold(
-        modifier = Modifier.background(Grey),
+        containerColor = BgGrey,
         bottomBar = {
             CartBottomCard(
                 btnLabel = "Finalizar Compra",
-                btnOnClick = {},
+                btnOnClick = { navController.navigate("purchase-confirm") },
                 totalValue = totalValue
             )
         }
@@ -134,7 +137,7 @@ fun ShoppingCartPage() {
                 item {
                     Column(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(5.dp))
+                            .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth(0.9f)
                             .background(Color.White)
                     ){
@@ -143,7 +146,7 @@ fun ShoppingCartPage() {
                     Spacer(modifier = Modifier.height(10.dp))
                     Column(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(5.dp))
+                            .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth(0.9f)
                             .background(Color.White)
                     ){
@@ -169,5 +172,5 @@ fun ShoppingCartPage() {
 @Preview
 @Composable
 private fun ShoppingCartPagePreview(){
-    ShoppingCartPage()
+    ShoppingCartPage(navController = rememberNavController())
 }

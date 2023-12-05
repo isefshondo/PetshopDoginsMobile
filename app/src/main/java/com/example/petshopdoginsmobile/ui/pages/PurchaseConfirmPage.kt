@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.ui.components.buttons.BackToStart
 import com.example.petshopdoginsmobile.ui.components.cards.PurchaseCompleted
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
@@ -22,7 +24,7 @@ import com.example.petshopdoginsmobile.ui.utils.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PurchaseConfirmPage() {
+fun PurchaseConfirmPage(navController: NavController) {
     Scaffold(
         containerColor = BgGrey
     ) { innerPadding ->
@@ -40,7 +42,7 @@ fun PurchaseConfirmPage() {
                 verticalArrangement = Arrangement.spacedBy(Dimensions.VERTICAL_SPACING)
             ) {
                 item { PurchaseCompleted() }
-                item { BackToStart {}}
+                item { BackToStart {navController.navigate("home")}}
             }
         }
     }
@@ -50,5 +52,5 @@ fun PurchaseConfirmPage() {
 @Preview
 @Composable
 private fun PurchaseConfirmPagePreview(){
-    PurchaseConfirmPage()
+    PurchaseConfirmPage(navController = rememberNavController())
 }
