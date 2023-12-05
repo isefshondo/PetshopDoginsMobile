@@ -36,6 +36,8 @@ import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.theme.regular14
 import com.example.petshopdoginsmobile.model.entities.Product
 import com.example.petshopdoginsmobile.model.entities.ProductImage
+import com.example.petshopdoginsmobile.ui.theme.Blue
+import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 
 @Composable
 fun LoadProductImages(productImages: List<String>) {
@@ -44,7 +46,14 @@ fun LoadProductImages(productImages: List<String>) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(productImages) {image ->
-                LoadBinaryImage(productImage = ProductImage(image))
+                Box (
+                    modifier = Modifier
+                        .border(width = 2.dp, color = Blue, shape = RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(50.dp)
+                ) {
+                    LoadBinaryImage(productImage = ProductImage(image), isFullWidthImage = true)
+                }
             }
         }
     }
