@@ -29,6 +29,8 @@ class ProductsViewModel : ViewModel() {
     )
     val product: StateFlow<Product> = _product
 
+    private val _selectedProductId = MutableStateFlow<String?>(null)
+    val selectedProductId: StateFlow<String?> = _selectedProductId
 
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
@@ -48,12 +50,19 @@ class ProductsViewModel : ViewModel() {
         }
     }
 
-    private fun fetchSpecificProduct(id: String) {
-        viewModelScope.launch {
-            try {
-                _product.value = ApiClient.apiService.findById(id)
-            } catch (e: Exception) {
-                Log.i("fetchSpecificProductError", "${e.message}")
+    fun setSelectedProductId(productId: String) {
+        _selectedProductId.value = productId
+    }
+
+    fun fetchSpecificProduct() {
+        val productId = _selectedProductId.value
+        if (productId !== null) {
+            viewModelScope.launch {
+                try {
+                    _product.value = ApiClient.apiService.findById(productId)
+                } catch (e: Exception) {
+                    Log.i("fetchSpecificProductError", "${e.message}")
+                }
             }
         }
     }
