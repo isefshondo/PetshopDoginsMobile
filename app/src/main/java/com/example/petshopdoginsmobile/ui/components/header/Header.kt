@@ -59,7 +59,7 @@ fun PageHeader(
     isHomePage: Boolean,
     headerTitle: String,
     handleViewCartEvent: () -> Unit,
-    handleGoBackFunction: () -> Unit,
+    navController: NavController
 ) {
     Row (
         modifier = Modifier
@@ -76,10 +76,9 @@ fun PageHeader(
             Row (horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                 RenderIcon(
                     icon = painterResource(id = R.drawable.arrow_back_icon),
-                    iconDescription = "Go back to the last page"
-                ) {
-                    handleGoBackFunction()
-                }
+                    iconDescription = "Go back to the last page",
+                    onClick = { navController.popBackStack() }
+                )
                 Text(text = headerTitle, style = regular14, color = VibrantBlue)
             }
             Row (horizontalArrangement = Arrangement.spacedBy(25.dp)) {
@@ -89,10 +88,9 @@ fun PageHeader(
                 ) {}
                 RenderIcon(
                     icon = painterResource(id = R.drawable.cart_icon),
-                    iconDescription = "Visualize cart page..."
-                ) {
-                    handleViewCartEvent()
-                }
+                    iconDescription = "Visualize cart page...",
+                    onClick = handleViewCartEvent
+                )
             }
         } else {
             Column (
@@ -136,8 +134,9 @@ fun PageHeader(
             ) {
                 RenderIcon(
                     icon = painterResource(id = R.drawable.cart_icon),
-                    iconDescription = "Visualize cart page..."
-                ) {}
+                    iconDescription = "Visualize cart page...",
+                    onClick = handleViewCartEvent
+                )
             }
         }
     }
@@ -152,7 +151,7 @@ fun HeaderPreview() {
             isHomePage = true,
             headerTitle,
             handleViewCartEvent = {},
-            handleGoBackFunction = {},
+            navController = rememberNavController()
         )
     }
 }

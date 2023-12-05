@@ -73,7 +73,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                     isHomePage = false,
                     headerTitle = "Detalhes",
                     handleViewCartEvent = { navController.navigate("home") },
-                    handleGoBackFunction = { navController.navigate("shopping-cart") }
+                    navController,
                 )
             }
             // Visualize product and its info
