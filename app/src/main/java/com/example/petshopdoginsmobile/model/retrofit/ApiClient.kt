@@ -1,6 +1,7 @@
 package com.example.petshopdoginsmobile.model.retrofit
 
 import com.example.petshopdoginsmobile.model.service.ProductService
+import com.example.petshopdoginsmobile.model.service.ShoppingCartService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,5 +19,9 @@ object RetrofitClient {
 object ApiClient {
     val apiService: ProductService by lazy {
         RetrofitClient.retrofit.create(ProductService::class.java)
+    }
+
+    val apiCartService: ShoppingCartService by lazy {
+        RetrofitClient.retrofit.create(ShoppingCartService::class.java)
     }
 }

@@ -1,9 +1,8 @@
 package com.example.petshopdoginsmobile.domain
 
-import androidx.compose.ui.graphics.painter.Painter
 import kotlinx.coroutines.flow.MutableStateFlow
 
-data class Item(
+data class ItemDomain(
     val id: String,
     val image: String,
     val title: String,

@@ -1,26 +1,25 @@
 package com.example.petshopdoginsmobile.ui.viewmodels
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.petshopdoginsmobile.domain.Item
+import com.example.petshopdoginsmobile.domain.ItemDomain
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /**/
 class ItemViewModel(
-    val item: Item
+    val itemDomain: ItemDomain
 ): ViewModel() {
-    val quantity = item.quantity.asStateFlow()
-    val inStock = item.inStock.asStateFlow()
-    val discount = item.discount.asStateFlow()
+    val quantity = itemDomain.quantity.asStateFlow()
+    val inStock = itemDomain.inStock.asStateFlow()
+    val discount = itemDomain.discount.asStateFlow()
     val price = derivedStateOf {
-        if (item.discount.value > 0.0) {
-            item.price.value - (item.price.value * (item.discount.value / 100))
+        if (itemDomain.discount.value > 0.0) {
+            itemDomain.price.value - (itemDomain.price.value * (itemDomain.discount.value / 100))
         } else {
-            item.price.value
+            itemDomain.price.value
         }
     }
     val total = MutableStateFlow(0.0)
@@ -35,14 +34,14 @@ class ItemViewModel(
     }
 
     fun updateQuantity(newQuantity: Int){
-        item.quantity.value = newQuantity
+        itemDomain.quantity.value = newQuantity
     }
 
     fun updateInStock(newInStock: Int){
-        item.inStock.value = newInStock
+        itemDomain.inStock.value = newInStock
     }
 
     fun updateDiscount(newDiscount: Double){
-        item.discount.value = newDiscount
+        itemDomain.discount.value = newDiscount
     }
 }

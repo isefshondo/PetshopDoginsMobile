@@ -52,6 +52,7 @@ import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
+import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 
 @Composable
 fun RenderDivider() {
@@ -258,7 +259,7 @@ fun RenderProductDescription(brandName: String?, productDescription: String?) {
 }
 
 @Composable
-fun ProductInfoCard(product: Product) {
+fun ProductInfoCard(product: Product, onAddToCartClick: () -> Unit) {
     return Column (
         modifier = Modifier
             .shadow(
@@ -318,7 +319,10 @@ fun ProductInfoCard(product: Product) {
                     .fillMaxWidth()
                     .height(60.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { /* TODO */ }
+                    .clickable {
+                        onAddToCartClick()
+
+                    }
                     .background(color = SoftBlue),
                 contentAlignment = Alignment.Center
             ) {

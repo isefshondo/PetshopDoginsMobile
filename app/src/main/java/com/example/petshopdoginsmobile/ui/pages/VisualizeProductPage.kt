@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +36,7 @@ import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.White
+import com.example.petshopdoginsmobile.ui.theme.discount
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 
 @Composable
@@ -51,6 +54,29 @@ fun RenderLoadingPage() {
 
 @Composable
 fun VisualizeProductPage(navController: NavController, productId: String, viewModel: ProductsViewModel) {
+    val showDialog by viewModel.showDialog.collectAsState()
+    val success by viewModel.success.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    if(showDialog){
+        AlertDialog(
+            onDismissRequest = { viewModel.showDialog.value = false },
+            title = {
+                Text(
+                    text = if(success) "Mensagem" else "Erro") },
+            text = { Text(text = if(success) "Produto adicionado ao carrinho com sucesso!" else errorMessage!!) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        navController.navigate("shopping-cart")
+                        viewModel.showDialog.value = false
+                    }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+
     val staticProductInfo = StaticProduct(
         productRating = 4.5f,
         productRatingQuantity = 129,
@@ -95,7 +121,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                     )
                 }
                 Row {
-                    ProductInfoCard(product)
+                    ProductInfoCard(product, viewModel::addToShoppingCart)
                 }
             }
             // Buy Button Column
