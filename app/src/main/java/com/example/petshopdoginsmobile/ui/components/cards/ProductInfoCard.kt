@@ -208,6 +208,14 @@ fun RenderApplyCouponSection() {
                     modifier = Modifier
                         .padding(horizontal = 12.dp, vertical = 10.dp)
                 )
+            } else {
+                Text(
+                    text = couponTextValue,
+                    color = GreyDarkier,
+                    style = regular12,
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp, vertical = 10.dp)
+                )
             }
         }
         Box (

@@ -33,6 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.R
 import com.example.petshopdoginsmobile.ui.theme.Blue
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
+import com.example.petshopdoginsmobile.ui.theme.Grey
+import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
 import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.White
@@ -112,18 +114,20 @@ fun PageHeader(
                         .clip(RoundedCornerShape(20.dp))
                         .background(White),
                 ) {
-                    if (searchTextValue.isEmpty()) {
-                        Row (
-                            modifier = Modifier
-                                .padding(horizontal = 13.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            RenderIcon(
-                                icon = painterResource(id = R.drawable.carbon_search),
-                                iconDescription = "Search for something..."
-                            ) {}
+                    Row (
+                        modifier = Modifier
+                            .padding(horizontal = 13.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RenderIcon(
+                            icon = painterResource(id = R.drawable.carbon_search),
+                            iconDescription = "Search for something..."
+                        ) {}
+                        if (searchTextValue.isEmpty()) {
                             Text(text = "Pesquise por algo", color = BlueDark, style = regular12)
+                        } else {
+                            Text(text = searchTextValue, color = GreyDarkier, style = regular12)
                         }
                     }
                 }
