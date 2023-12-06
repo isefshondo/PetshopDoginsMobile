@@ -37,6 +37,7 @@ import com.example.petshopdoginsmobile.ui.components.cards.RenderApplyCouponSect
 import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.theme.Grey
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -45,7 +46,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 fun ShoppingCartPage(navController: NavController) {
     val items = listOf(
         Item(
-            image = painterResource(id = R.drawable.img_cat),
+            id = "",
+            image = productImageExample.data,
             title = "Fantasia para Gatos de Unicórnio e Leão Fantasia para Gatos de Unicórnio",
             quantity = MutableStateFlow(1),
             inStock = MutableStateFlow(6),
@@ -54,7 +56,8 @@ fun ShoppingCartPage(navController: NavController) {
             total = MutableStateFlow(0.0)
         ),
         Item(
-            image = painterResource(id = R.drawable.img_cat),
+            id = "",
+            image = productImageExample.data,
             title = "Fantasia para Cachorros de Super-Heróis",
             quantity = MutableStateFlow(2),
             inStock = MutableStateFlow(10),

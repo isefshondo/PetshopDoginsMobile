@@ -1,6 +1,5 @@
 package com.example.petshopdoginsmobile.ui.components.cards
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,15 +24,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.R
+import com.example.petshopdoginsmobile.model.entities.ProductImage
 import com.example.petshopdoginsmobile.ui.theme.Grey
 import com.example.petshopdoginsmobile.ui.theme.GreyDarkier
 import com.example.petshopdoginsmobile.ui.theme.SoftBlue
@@ -51,13 +48,14 @@ import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.CardDimensions
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun CartProductCard(
     modifier: Modifier = Modifier,
-    image: Painter,
+    image: String,
     title: String,
     _quantity: MutableStateFlow<Int>,
     _inStock: MutableStateFlow<Int>,
@@ -67,6 +65,7 @@ fun CartProductCard(
     onQuantityChange: (Int) -> Unit,
     onRemove: () -> Unit
 ){
+    val img = ProductImage(image)
     val configuration = LocalConfiguration.current
     val d = CardDimensions(configuration)
     val quantity = _quantity.collectAsState()
@@ -82,7 +81,6 @@ fun CartProductCard(
 
     ElevatedCard(
         shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(1.dp),
         modifier = Modifier
             .width(d.cardWidth)
             .heightIn(min = d.cardHeight)
@@ -104,11 +102,7 @@ fun CartProductCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ){
-                Image(
-                    modifier = Modifier.size(48.dp),
-                    painter = image,
-                    contentDescription = "Product image"
-                )
+                LoadBinaryImage(productImage = img, maxWidth = 48.dp, contentDescription = "Product image")
                 Column(horizontalAlignment = Alignment.CenterHorizontally){
                     Card(
                         shape = RoundedCornerShape(5.dp),
@@ -192,7 +186,7 @@ private fun PreviewCartProductCard() {
     val total = MutableStateFlow(0.0)
     val item: ItemViewModel = viewModel()
     CartProductCard(
-        image = painterResource(id = R.drawable.img_cat),
+        image = productImageExample.data,
         title = "Fantasia para Gatos de Unicórnio e Leão Fantasia para Gatos de Unicórnio",
         _quantity = quantity,
         _inStock = inStock,

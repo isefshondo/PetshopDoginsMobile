@@ -72,7 +72,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                 PageHeader(
                     isHomePage = false,
                     headerTitle = "Detalhes",
-                    handleViewCartEvent = { navController.navigate("home") },
+                    handleViewCartEvent = { navController.navigate("shopping-cart") },
                     navController,
                 )
             }

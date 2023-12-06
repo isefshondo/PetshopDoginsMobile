@@ -57,7 +57,6 @@ fun OrderSummaryCard(
 
     ElevatedCard(
         shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(1.dp),
         modifier = Modifier
             .width(d.cardWidth)
             .heightIn(min = d.cardHeight)

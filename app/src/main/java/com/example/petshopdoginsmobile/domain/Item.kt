@@ -4,7 +4,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class Item(
-    val image: Painter,
+    val id: String,
+    val image: String,
     val title: String,
     val discount: MutableStateFlow<Double>,
     val inStock: MutableStateFlow<Int>,
