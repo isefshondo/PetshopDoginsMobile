@@ -79,7 +79,7 @@ fun CartProductCard(
         }
     }
 
-    ElevatedCard(
+    Card(
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .width(d.cardWidth)

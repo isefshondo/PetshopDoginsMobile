@@ -173,6 +173,7 @@ fun ShoppingCartPage(navController: NavController) {
                         coupons = coupons,
                         couponDiscount = couponDiscount
                     )
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
         }
