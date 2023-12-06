@@ -1,10 +1,15 @@
 package com.example.petshopdoginsmobile.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.derivedStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petshopdoginsmobile.domain.ItemDomain
+import com.example.petshopdoginsmobile.model.entities.Item
+import com.example.petshopdoginsmobile.model.entities.Product
+import com.example.petshopdoginsmobile.model.retrofit.ApiClient
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -12,6 +17,8 @@ import kotlinx.coroutines.launch
 class ItemViewModel(
     val itemDomain: ItemDomain
 ): ViewModel() {
+
+
     val quantity = itemDomain.quantity.asStateFlow()
     val inStock = itemDomain.inStock.asStateFlow()
     val discount = itemDomain.discount.asStateFlow()
