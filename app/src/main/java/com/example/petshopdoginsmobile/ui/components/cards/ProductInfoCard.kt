@@ -51,6 +51,7 @@ import com.example.petshopdoginsmobile.ui.theme.medium12
 import com.example.petshopdoginsmobile.ui.theme.medium14
 import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
+import com.example.petshopdoginsmobile.ui.utils.calculateDiscountedPrice
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
 
 @Composable
@@ -66,10 +67,10 @@ fun RenderDivider() {
 }
 
 @Composable
-fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Float) {
+fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Double) {
     val stubProductPrice = 163.90
     val formattedProductPrice = productPrice?.formatToCurrency() ?: "N/A"
-    val priceDiscount = ((productPrice ?: stubProductPrice) * (100f - discountValue)) / 100f
+    val priceDiscount = calculateDiscountedPrice(productPrice!!, discountValue)
 
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -77,7 +78,7 @@ fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Float) {
         Text(
             buildAnnotatedString {
                 withStyle(SpanStyle(color = GreyDarkier, textDecoration = TextDecoration.LineThrough)) {
-                    append("R$ $formattedProductPrice")
+                    append("$formattedProductPrice")
                 }
             },
             style = medium12
@@ -114,7 +115,7 @@ fun RenderPricesOnDiscount(productPrice: Double?, discountValue: Float) {
         Text(
             buildAnnotatedString {
                 withStyle(SpanStyle(color = VibrantBlue)) {
-                    append("R$ $priceDiscount")
+                    append("${priceDiscount.formatToCurrency()}")
                 }
             },
             style = medium20
@@ -159,7 +160,7 @@ fun RenderAvailableOptions(
 }
 
 @Composable
-fun RenderPriceSection(productPrice: Double?, discountValue: Float?) {
+fun RenderPriceSection(productPrice: Double?, discountValue: Double?) {
     if (discountValue !== null) {
         RenderPricesOnDiscount(productPrice, discountValue)
     } else {
@@ -270,7 +271,7 @@ fun ProductInfoCard(product: Product) {
             .padding(23.dp),
     ) {
         Column {
-            RenderPriceSection(product.productPrice, 20f)
+            RenderPriceSection(product.productPrice, 20.00)
         }
         Column {
             Text(buildAnnotatedString {
