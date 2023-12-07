@@ -71,7 +71,7 @@ git clone https://github.com/mandis-ncs/dogins_api.git
 
 4. Certifique-se de ter realizado a configuração correta do MongoDB
 
-5. Abra a API Dogins pelo VS Code ou IntelliJ, certifique-se de iniciar a API que estará rodando em `http://localhost:8080` durante a execução do app android
+5. Abra a API Dogins pelo VS Code ou IntelliJ, certifique-se de iniciar a API que estará rodando em `http://localhost:8080` durante a execução do app android. Para mais informações de como rodar a API, acesse o repositório indicado anteriormente em Dependências.
 
 6. Execute o Emulador do Android Studio
 
