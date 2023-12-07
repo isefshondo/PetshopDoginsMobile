@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +56,7 @@ import com.example.petshopdoginsmobile.ui.utils.calculateDiscountedPrice
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun RenderDivider() {
@@ -269,8 +271,7 @@ fun RenderProductDescription(brandName: String?, productDescription: String?) {
 }
 
 @Composable
-fun ProductInfoCard(product: Product, onAddToCartClick: () -> Unit) {
-    var currentProductQtt by remember { mutableStateOf(1) }
+fun ProductInfoCard(product: Product, onAddToCartClick: () -> Unit, onQuantityChange: (Int) -> Unit, quantity: MutableStateFlow<Int>) {
     return Column (
         modifier = Modifier
             .shadow(
@@ -314,15 +315,9 @@ fun ProductInfoCard(product: Product, onAddToCartClick: () -> Unit) {
             }, style = medium20)
             Spacer(modifier = Modifier.width(15.dp))
             QuantitySelector(
-                _quantity = MutableStateFlow(currentProductQtt),
-                _inStock = MutableStateFlow(product.productStock ?: 0),
-                onQuantityChange = {it ->
-                    currentProductQtt = it
-                },
-                iconPlusButtonWidth = 59.dp,
-                qttTextWidth = 90.dp,
-                iconMinusButtonWidth = 59.dp,
-                qttBoxHeight = 46.dp,
+                _quantity = quantity,
+                _inStock = MutableStateFlow(product.productStock!!),
+                onQuantityChange = onQuantityChange
             )
             Spacer(modifier = Modifier.width(5.dp))
         }

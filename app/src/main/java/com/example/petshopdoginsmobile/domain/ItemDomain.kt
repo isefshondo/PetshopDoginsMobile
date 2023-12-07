@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ItemDomain(
     val id: String,
-    val image: String,
+    val image: List<String>,
     val title: String,
     val discount: MutableStateFlow<Double>,
     val inStock: MutableStateFlow<Int>,

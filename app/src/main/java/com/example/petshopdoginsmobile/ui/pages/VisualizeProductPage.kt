@@ -42,6 +42,7 @@ import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.White
 import com.example.petshopdoginsmobile.ui.theme.discount
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun RenderLoadingPage() {
@@ -73,6 +74,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                     onClick = {
                         navController.navigate("shopping-cart")
                         viewModel.showDialog.value = false
+                        viewModel.updateQuantity(1)
                     }
                 ) {
                     Text("OK")
@@ -80,6 +82,8 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
             }
         )
     }
+
+    val quantityState = viewModel.quantity.collectAsState()
 
     val staticProductInfo = StaticProduct(
         productRating = 4.5f,
@@ -125,7 +129,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                     )
                 }
                 Row {
-                    ProductInfoCard(product, viewModel::addToShoppingCart)
+                    ProductInfoCard(product, viewModel::addToShoppingCart, viewModel::updateQuantity, MutableStateFlow(quantityState.value))
                 }
             }
             // Buy Button Column
