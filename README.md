@@ -52,7 +52,7 @@ Este projeto depende da seguinte API:
 <br>
 
 ### Configurando o MongoDB 🐶💙
-É recomendado que a máquina tenha o MongoDB Compass instalado. Após fazer a conexão com localhost, uma nova coleção deverá ser criada com o nome `Dogin`. Crie um novo documento com o nome `products` e importe o documento JSON `products.json` da pasta `config`.
+É recomendado que a máquina tenha o MongoDB Compass instalado. Após rodar a API Dogins, uma nova coleção deverá ser criada automaticamente com o nome `dogin`. Para mais informações, acesse o repositório indicado anteriormente em Dependências.
 
 ### Play no app 🐶💙
 1. <p>Clone os seguintes repositórios em seu computador utilizando o comando:</p>
@@ -71,7 +71,7 @@ git clone https://github.com/mandis-ncs/dogins_api.git
 
 4. Certifique-se de ter realizado a configuração correta do MongoDB
 
-5. Abra a API Dogins pelo VS Code ou IntelliJ, certifique-se de iniciar a API que estará rodando em `http://localhost:8080` durante a execução do app android. Para mais informações de como rodar a API, acesse o repositório indicado anteriormente em Dependências.
+5. Abra a API Dogins pelo VS Code ou IntelliJ, certifique-se de iniciar a API que estará rodando em `http://localhost:8080` durante a execução do app android. Para mais informações de como rodar a API, acesse seu repositório.
 
 6. Execute o Emulador do Android Studio
 
