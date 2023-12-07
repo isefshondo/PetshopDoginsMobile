@@ -17,8 +17,6 @@ import kotlinx.coroutines.launch
 class ItemViewModel(
     val itemDomain: ItemDomain
 ): ViewModel() {
-
-
     val quantity = itemDomain.quantity.asStateFlow()
     val inStock = itemDomain.inStock.asStateFlow()
     val discount = itemDomain.discount.asStateFlow()

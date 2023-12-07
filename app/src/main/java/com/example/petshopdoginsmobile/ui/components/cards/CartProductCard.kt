@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -34,6 +33,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.R
@@ -168,7 +168,8 @@ fun CartProductCard(
                     QuantitySelector(
                         _quantity = MutableStateFlow(quantity.value),
                         _inStock = MutableStateFlow(inStock.value),
-                        onQuantityChange = onQuantityChange
+                        onQuantityChange = onQuantityChange,
+                        isCartProductItem = true
                     )
                 }
             }
@@ -200,12 +201,31 @@ private fun PreviewCartProductCard() {
 
 
 @Composable
-private fun QuantitySelector(
+fun QuantitySelector(
     _quantity: MutableStateFlow<Int>,
     _inStock: MutableStateFlow<Int>,
     onQuantityChange: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isCartProductItem: Boolean = false
 ){
+    var height = 40.dp
+    var widthText = 60.dp
+    var widthIconBtn = 44.dp
+    var addIconSize = 14.dp
+    var decrementIconWidth = 12.dp
+    var borderRadius = 10.dp
+    var textStyle = medium14
+
+    if(isCartProductItem){
+        height = 20.dp
+        widthText = 34.dp
+        widthIconBtn = 22.dp
+        addIconSize = 10.dp
+        decrementIconWidth = 8.dp
+        borderRadius = 5.dp
+        textStyle = medium12
+    }
+
     val quantity = _quantity.collectAsState()
     val inStock = _inStock.collectAsState()
 
@@ -213,12 +233,12 @@ private fun QuantitySelector(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .height(20.dp)
-            .border(1.dp, Grey, RoundedCornerShape(5.dp))
+            .height(height)
+            .border(1.dp, Grey, RoundedCornerShape(borderRadius))
             .clip(RoundedCornerShape(5.dp))
     ) {
         IconButton(
-            modifier = Modifier.width(22.dp),
+            modifier = Modifier.width(widthIconBtn),
             onClick = {
                 if(quantity.value < inStock.value)
                     onQuantityChange(quantity.value + 1)
@@ -227,21 +247,25 @@ private fun QuantitySelector(
             Icon(
                 Icons.Filled.Add,
                 contentDescription = "Add item",
-                modifier = Modifier.size(10.dp),
+                modifier = Modifier.size(addIconSize),
                 tint = GreyDarkier
             )
         }
-        Text(
-            text = quantity.value.toString(),
-            textAlign = TextAlign.Center,
-            style = medium12,
+        Column(
             modifier = Modifier
                 .border(1.dp, Grey)
-                .height(20.dp)
-                .width(34.dp)
-        )
+                .height(height)
+                .width(widthText),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ){
+            Text(
+                text = quantity.value.toString(),
+                style = textStyle,
+            )
+        }
         IconButton(
-            modifier = Modifier.width(22.dp),
+            modifier = Modifier.width(widthIconBtn),
             onClick = {
                 if (quantity.value > 0)
                     onQuantityChange(quantity.value - 1)
@@ -250,7 +274,7 @@ private fun QuantitySelector(
             Icon(
                 painter = painterResource(id = R.drawable.ic_minus),
                 contentDescription = "Decrement item",
-                modifier = Modifier.size(8.dp),
+                modifier = Modifier.size(decrementIconWidth),
                 tint = GreyDarkier
             )
         }

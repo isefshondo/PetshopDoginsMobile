@@ -119,7 +119,7 @@ fun ShoppingCartPage(navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            Spacer(modifier = Modifier.height(10.dp))
+            //Spacer(modifier = Modifier.height(10.dp))
             if(itemViewModels.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),

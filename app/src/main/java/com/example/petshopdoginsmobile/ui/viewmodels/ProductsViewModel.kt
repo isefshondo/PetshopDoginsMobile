@@ -43,8 +43,8 @@ class ProductsViewModel : ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-    private val _quantity = MutableStateFlow<Int>(0)
-    val quantity = _quantity.asStateFlow()
+    private val _quantity = MutableStateFlow<Int>(1)
+    val quantity: StateFlow<Int> = _quantity.asStateFlow()
 
     private val _success = MutableStateFlow<Boolean>(false)
     val success: StateFlow<Boolean> = _success
@@ -115,5 +115,9 @@ class ProductsViewModel : ViewModel() {
                 showDialog.value = true
             }
         }
+    }
+
+    fun updateQuantity(newQuantity: Int){
+        _quantity.value = newQuantity
     }
 }
