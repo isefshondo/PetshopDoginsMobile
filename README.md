@@ -21,17 +21,17 @@ Dogin's é um petshop online com um design AUUdacioso 🐶💙 Nele, você pode 
 <aside>Este projeto tem como intuito colocar em prática a metodologia Scrum, uma abordagem ágil de gerenciamento de projetos que se baseia em sprints, 
 reuniões diárias e retrospectivas para entregar um produto de alta qualidade de forma eficiente e eficaz.</aside>
 
-## Arquitetura de Arquivos 🐶💙
+## Estrutura de Arquivos 🐶💙
 
 <li><strong>📁 app/</strong>:  Diretório contendo a implementação do E-commerce.</li><br>
 <li><strong>📁 config/</strong>: Contém o arquivo responsável por estabelecer a conexão com o banco de dados utilizado pela API.</li><br>
 
 ```
 📁 config/  
-   ├── 📁 composer/     <!-- Gerenciador de depêndencias necessário para manipulação do MongoDB com PHP -->
+   ├── 📁 composer/     <!-- Gerenciador de depêndencias para manipulação do MongoDB com PHP -->
    ├── 📄 conn.php      <!-- Arquivo de conexão com o banco de dados -->
-   ├── 📄 products.json <!-- Exportação dos documentos contidos na coleção 'products' -->
-   └── 📄 users.php     <!-- Exportação dos documentos contidos na coleção 'users'. Possui o documento com usuário e senha 'admin' -->
+   ├── 📄 products.json <!-- Exportação dos documentos da coleção 'products' -->
+   └── 📄 users.php     <!-- Exportação dos documentos da coleção 'users' -->
 ```
 
 
