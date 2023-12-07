@@ -114,12 +114,12 @@ fun ShoppingCartPage(navController: NavController) {
     ) { innerPadding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            //Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             if(itemViewModels.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),

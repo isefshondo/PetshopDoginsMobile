@@ -31,9 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.R
@@ -54,7 +52,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun CartProductCard(
-    modifier: Modifier = Modifier,
     image: String,
     title: String,
     _quantity: MutableStateFlow<Int>,
@@ -72,7 +69,6 @@ fun CartProductCard(
     val inStock = _inStock.collectAsState()
     val discount = _discount.collectAsState()
     val price = _price.collectAsState()
-    val total = _total.collectAsState()
     val formattedPrice = remember {
         derivedStateOf {
             price.value.formatToCurrency() // price é um StateFlow<Double>
@@ -120,10 +116,6 @@ fun CartProductCard(
                     }
                     Text(
                         text = formattedPrice.value,
-                        style = medium14
-                    )
-                    Text(
-                        text = "${total.value}",
                         style = medium14
                     )
                 }
@@ -205,7 +197,6 @@ fun QuantitySelector(
     _quantity: MutableStateFlow<Int>,
     _inStock: MutableStateFlow<Int>,
     onQuantityChange: (Int) -> Unit,
-    modifier: Modifier = Modifier,
     isCartProductItem: Boolean = false
 ){
     var height = 40.dp

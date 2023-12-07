@@ -70,6 +70,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                     onClick = {
                         navController.navigate("shopping-cart")
                         viewModel.showDialog.value = false
+                        viewModel.updateQuantity(1)
                     }
                 ) {
                     Text("OK")
