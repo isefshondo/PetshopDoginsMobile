@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -18,7 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.petshopdoginsmobile.domain.ItemDomain
 import com.example.petshopdoginsmobile.ui.components.buttons.BackToStart
 import com.example.petshopdoginsmobile.ui.components.buttons.CalculateShippingButton
 import com.example.petshopdoginsmobile.ui.components.cards.CartBottomCard
@@ -42,18 +43,15 @@ import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.medium20
-import com.example.petshopdoginsmobile.ui.utils.productImageExample
-import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemsViewModel
-import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingCartPage(navController: NavController) {
     val viewModel: ItemsViewModel = viewModel()
-    val itemViewModels = viewModel.itemViewModels.collectAsState().value
+    val itemViewModels = viewModel.itemViewModels.collectAsState()
+    val itemViewModelsState = viewModel.itemViewModels.collectAsState()
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -67,19 +65,14 @@ fun ShoppingCartPage(navController: NavController) {
         }
     }
 
-    // cria um estado para armazenar o valor total do carrinho
-    val totalValue = remember { mutableStateOf(0.0) }
-
-    // cria um estado para armazenar o número total de itens
-    val totalItems = remember { mutableStateOf(itemViewModels.size) }
+    val totalValue = viewModel.totalValue.collectAsState()
+    val totalItems = viewModel.totalItems.collectAsState()
 
     // cria um coletor para cada ItemViewModel
-    itemViewModels.forEach { itemViewModel ->
+    itemViewModels.value.forEach { itemViewModel ->
         LaunchedEffect(itemViewModel.total) {
             itemViewModel.total.collect { total ->
-                // Atualizar o totalValue sempre que o total de qualquer ItemViewModel mudar
-                totalValue.value = itemViewModels.sumOf { it.total.value }
-                totalItems.value = itemViewModels.size
+                viewModel.updateTotalValueAndItems()
             }
         }
     }
@@ -101,12 +94,12 @@ fun ShoppingCartPage(navController: NavController) {
             )
         },
         bottomBar = {
-            if(itemViewModels.isEmpty()) {
+            if(itemViewModels.value.isEmpty()) {
                 BackToStart(onClick = {navController.navigate("home")})
             }else{
                 CartBottomCard(
                     btnLabel = "Finalizar Compra",
-                    btnOnClick = { navController.navigate("purchase-confirm") },
+                    btnOnClick = { viewModel.confirmShoppingCart() },
                     totalValue = totalValue
                 )
             }
@@ -120,7 +113,7 @@ fun ShoppingCartPage(navController: NavController) {
                 .padding(innerPadding)
         ) {
             Spacer(modifier = Modifier.height(5.dp))
-            if(itemViewModels.isEmpty()) {
+            if(itemViewModels.value.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -134,8 +127,8 @@ fun ShoppingCartPage(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(itemViewModels.size) { index ->
-                        val itemViewModel = itemViewModels[index]
+                    items(itemViewModelsState.value.size) { index ->
+                        val itemViewModel = itemViewModels.value[index]
                         CartProductCard(
                             image = itemViewModel.itemDomain.image[0],
                             title = itemViewModel.itemDomain.title,
@@ -146,10 +139,7 @@ fun ShoppingCartPage(navController: NavController) {
                             _total = itemViewModel.total,
                             onQuantityChange = itemViewModel::updateQuantity,
                             onRemove = {
-                                itemViewModels.remove(itemViewModel)
-                                // Atualizar o totalValue e o totalItems quando um item é removido
-                                totalValue.value = itemViewModels.sumOf { it.total.value }
-                                totalItems.value = itemViewModels.size
+                                viewModel.removeItem(itemViewModel)
                             }
                         )
                     }
@@ -187,6 +177,29 @@ fun ShoppingCartPage(navController: NavController) {
             }
         }
 
+    }
+    val showDialog by viewModel.showDialog.collectAsState()
+    val success by viewModel.success.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    if(showDialog){
+        AlertDialog(
+            onDismissRequest = { viewModel.showDialog.value = false },
+            title = {
+                Text(
+                    text = if(success) "Mensagem" else "Erro") },
+            text = { Text(text = if(success) "Compra finalizada com sucesso!" else errorMessage!!) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if(success == true)
+                            navController.navigate("purchase-confirm")
+                        viewModel.showDialog.value = false
+                    }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
     }
 }
 

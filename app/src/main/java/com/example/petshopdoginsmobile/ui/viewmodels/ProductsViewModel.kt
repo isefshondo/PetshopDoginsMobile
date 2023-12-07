@@ -1,12 +1,10 @@
 package com.example.petshopdoginsmobile.ui.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petshopdoginsmobile.model.entities.Item
 import com.example.petshopdoginsmobile.model.entities.Product
-import com.example.petshopdoginsmobile.model.entities.ShoppingCart
 import com.example.petshopdoginsmobile.model.retrofit.ApiClient
 import com.example.petshopdoginsmobile.ui.utils.calculateDiscountedPrice
 import kotlinx.coroutines.flow.MutableStateFlow

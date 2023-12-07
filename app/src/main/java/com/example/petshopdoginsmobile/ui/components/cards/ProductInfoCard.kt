@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,9 +53,7 @@ import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.calculateDiscountedPrice
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
-import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun RenderDivider() {

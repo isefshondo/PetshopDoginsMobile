@@ -98,4 +98,8 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:1.4.0")
+
+    //StringRetrofitConverter
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+
 }
