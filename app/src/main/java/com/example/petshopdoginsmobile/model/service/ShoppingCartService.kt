@@ -18,6 +18,6 @@ interface ShoppingCartService {
     @DELETE("dogins/shopping-cart/item/{id}")
     suspend fun deleteItemInShoppingCart(@Path("id") id: String)
 
-    @PATCH("dogins/{purchaseIsConfirmed}")
+    @PATCH("dogins/products/{purchaseIsConfirmed}")
     suspend fun shoppingCartConfirmed(@Path("purchaseIsConfirmed") purchaseIsConfirmed: Boolean): String
 }

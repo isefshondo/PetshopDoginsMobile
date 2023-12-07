@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petshopdoginsmobile.domain.ItemDomain
 import com.example.petshopdoginsmobile.model.entities.Item
-import com.example.petshopdoginsmobile.model.exceptions.EmptyListException
 import com.example.petshopdoginsmobile.model.retrofit.ApiClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +27,9 @@ class ItemsViewModel: ViewModel(){
 
     private val _itemViewModels = MutableStateFlow<MutableList<ItemViewModel>>(mutableListOf())
     val itemViewModels: StateFlow<MutableList<ItemViewModel>> = _itemViewModels
+
+    val totalValue = MutableStateFlow(0.0)
+    val totalItems = MutableStateFlow(0)
 
     init{
         fetchItems()
@@ -72,9 +74,31 @@ class ItemsViewModel: ViewModel(){
             try {
                 ApiClient.apiCartService.deleteItemInShoppingCart(itemViewModel.itemDomain.id)
                 _itemViewModels.value.remove(itemViewModel)
+                // Atualizar o totalValue e o totalItems quando um item é removido
+                updateTotalValueAndItems()
             } catch(e: Exception) {
                 Log.i("removeItemError", "${e.message}")
                 _errorMessage.value = e.message
+            }
+        }
+    }
+
+    fun updateTotalValueAndItems() {
+        totalValue.value = _itemViewModels.value.sumOf { it.total.value }
+        totalItems.value = _itemViewModels.value.size
+    }
+
+    fun confirmShoppingCart() {
+        viewModelScope.launch {
+            try{
+                val response = ApiClient.apiStringCartService.shoppingCartConfirmed(true)
+                if(response == "Your purchase was confirmed!")
+                    _success.value = true
+            }catch(e: Exception) {
+                Log.i("confirmShoppingCartError", "${e.message}")
+                _errorMessage.value = e.message
+            }finally{
+                showDialog.value = true
             }
         }
     }
