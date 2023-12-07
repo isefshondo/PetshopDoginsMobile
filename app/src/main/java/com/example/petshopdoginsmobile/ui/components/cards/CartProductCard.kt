@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petshopdoginsmobile.R
@@ -200,11 +201,14 @@ private fun PreviewCartProductCard() {
 
 
 @Composable
-private fun QuantitySelector(
+fun QuantitySelector(
     _quantity: MutableStateFlow<Int>,
     _inStock: MutableStateFlow<Int>,
     onQuantityChange: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    iconPlusButtonWidth: Dp = 22.dp,
+    qttTextWidth: Dp = 34.dp,
+    iconMinusButtonWidth: Dp = 22.dp,
+    qttBoxHeight: Dp = 20.dp,
 ){
     val quantity = _quantity.collectAsState()
     val inStock = _inStock.collectAsState()
@@ -213,12 +217,12 @@ private fun QuantitySelector(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .height(20.dp)
+            .height(qttBoxHeight)
             .border(1.dp, Grey, RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(5.dp))
     ) {
         IconButton(
-            modifier = Modifier.width(22.dp),
+            modifier = Modifier.width(iconPlusButtonWidth),
             onClick = {
                 if(quantity.value < inStock.value)
                     onQuantityChange(quantity.value + 1)
@@ -231,17 +235,22 @@ private fun QuantitySelector(
                 tint = GreyDarkier
             )
         }
-        Text(
-            text = quantity.value.toString(),
-            textAlign = TextAlign.Center,
-            style = medium12,
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .border(1.dp, Grey)
-                .height(20.dp)
-                .width(34.dp)
-        )
+                .height(qttBoxHeight)
+                .width(qttTextWidth),
+        ) {
+            Text(
+                text = quantity.value.toString(),
+                textAlign = TextAlign.Center,
+                style = medium12,
+            )
+        }
         IconButton(
-            modifier = Modifier.width(22.dp),
+            modifier = Modifier.width(iconMinusButtonWidth),
             onClick = {
                 if (quantity.value > 0)
                     onQuantityChange(quantity.value - 1)

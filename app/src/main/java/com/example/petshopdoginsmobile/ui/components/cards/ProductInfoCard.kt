@@ -54,6 +54,7 @@ import com.example.petshopdoginsmobile.ui.theme.regular12
 import com.example.petshopdoginsmobile.ui.utils.calculateDiscountedPrice
 import com.example.petshopdoginsmobile.ui.utils.formatToCurrency
 import com.example.petshopdoginsmobile.ui.viewmodels.ProductsViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun RenderDivider() {
@@ -269,6 +270,7 @@ fun RenderProductDescription(brandName: String?, productDescription: String?) {
 
 @Composable
 fun ProductInfoCard(product: Product, onAddToCartClick: () -> Unit) {
+    var currentProductQtt by remember { mutableStateOf(1) }
     return Column (
         modifier = Modifier
             .shadow(
@@ -311,7 +313,18 @@ fun ProductInfoCard(product: Product, onAddToCartClick: () -> Unit) {
                 }
             }, style = medium20)
             Spacer(modifier = Modifier.width(15.dp))
-
+            QuantitySelector(
+                _quantity = MutableStateFlow(currentProductQtt),
+                _inStock = MutableStateFlow(product.productStock ?: 0),
+                onQuantityChange = {it ->
+                    currentProductQtt = it
+                },
+                iconPlusButtonWidth = 59.dp,
+                qttTextWidth = 90.dp,
+                iconMinusButtonWidth = 59.dp,
+                qttBoxHeight = 46.dp,
+            )
+            Spacer(modifier = Modifier.width(5.dp))
         }
         Spacer(modifier = Modifier.height(25.dp))
         Column {

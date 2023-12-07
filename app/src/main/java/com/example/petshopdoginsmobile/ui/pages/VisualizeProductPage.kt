@@ -25,8 +25,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petshopdoginsmobile.domain.StaticProduct
 import com.example.petshopdoginsmobile.ui.components.cards.VisualizeProductCard
 import com.example.petshopdoginsmobile.ui.theme.BlueDark
@@ -34,6 +37,7 @@ import com.example.petshopdoginsmobile.ui.theme.medium20
 import com.example.petshopdoginsmobile.ui.components.cards.ProductInfoCard
 import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.Blue
+import com.example.petshopdoginsmobile.ui.theme.PetshopDoginsMobileTheme
 import com.example.petshopdoginsmobile.ui.theme.VibrantBlue
 import com.example.petshopdoginsmobile.ui.theme.White
 import com.example.petshopdoginsmobile.ui.theme.discount
@@ -141,7 +145,7 @@ fun VisualizeProductPage(navController: NavController, productId: String, viewMo
                         modifier = Modifier
                             .fillMaxSize()
                             .background(color = Blue, shape = RoundedCornerShape(10.dp))
-                            .clickable { },
+                            .clickable { navController.navigate("purchase-confirm") },
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(buildAnnotatedString {
