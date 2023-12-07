@@ -1,7 +1,6 @@
 package com.example.petshopdoginsmobile.ui.pages
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,13 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.petshopdoginsmobile.R
-import com.example.petshopdoginsmobile.domain.Item
+import com.example.petshopdoginsmobile.domain.ItemDomain
 import com.example.petshopdoginsmobile.ui.components.buttons.CalculateShippingButton
 import com.example.petshopdoginsmobile.ui.components.cards.CartBottomCard
 import com.example.petshopdoginsmobile.ui.components.cards.CartProductCard
@@ -36,16 +33,17 @@ import com.example.petshopdoginsmobile.ui.components.cards.OrderSummaryCard
 import com.example.petshopdoginsmobile.ui.components.cards.RenderApplyCouponSection
 import com.example.petshopdoginsmobile.ui.components.header.PageHeader
 import com.example.petshopdoginsmobile.ui.theme.BgGrey
-import com.example.petshopdoginsmobile.ui.theme.Grey
+import com.example.petshopdoginsmobile.ui.utils.productImageExample
 import com.example.petshopdoginsmobile.ui.viewmodels.ItemViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingCartPage(navController: NavController) {
-    val items = listOf(
-        Item(
-            image = painterResource(id = R.drawable.img_cat),
+    val itemDomains = listOf(
+        ItemDomain(
+            id = "",
+            image = productImageExample.data,
             title = "Fantasia para Gatos de Unicórnio e Leão Fantasia para Gatos de Unicórnio",
             quantity = MutableStateFlow(1),
             inStock = MutableStateFlow(6),
@@ -53,8 +51,9 @@ fun ShoppingCartPage(navController: NavController) {
             price = MutableStateFlow(62.0),
             total = MutableStateFlow(0.0)
         ),
-        Item(
-            image = painterResource(id = R.drawable.img_cat),
+        ItemDomain(
+            id = "",
+            image = productImageExample.data,
             title = "Fantasia para Cachorros de Super-Heróis",
             quantity = MutableStateFlow(2),
             inStock = MutableStateFlow(10),
@@ -65,7 +64,7 @@ fun ShoppingCartPage(navController: NavController) {
     )
     // cria uma lista mutável de ViewModels para cada item
     val itemViewModels = remember {
-        mutableStateListOf(*items.map {
+        mutableStateListOf(*itemDomains.map {
             ItemViewModel(it)
         }.toTypedArray())
     }
@@ -74,7 +73,7 @@ fun ShoppingCartPage(navController: NavController) {
     val totalValue = remember { mutableStateOf(0.0) }
 
     // cria um estado para armazenar o número total de itens
-    val totalItems = remember { mutableStateOf(items.size) }
+    val totalItems = remember { mutableStateOf(itemDomains.size) }
 
     // cria um coletor para cada ItemViewModel
     itemViewModels.forEach { itemViewModel ->
@@ -126,12 +125,12 @@ fun ShoppingCartPage(navController: NavController) {
                 items(itemViewModels.size) { index ->
                     val itemViewModel = itemViewModels[index]
                     CartProductCard(
-                        image = itemViewModel.item.image,
-                        title = itemViewModel.item.title,
-                        _quantity = itemViewModel.item.quantity,
-                        _inStock = itemViewModel.item.inStock,
-                        _discount = itemViewModel.item.discount,
-                        _price = itemViewModel.item.price,
+                        image = itemViewModel.itemDomain.image,
+                        title = itemViewModel.itemDomain.title,
+                        _quantity = itemViewModel.itemDomain.quantity,
+                        _inStock = itemViewModel.itemDomain.inStock,
+                        _discount = itemViewModel.itemDomain.discount,
+                        _price = itemViewModel.itemDomain.price,
                         _total = itemViewModel.total,
                         onQuantityChange = itemViewModel::updateQuantity,
                         onRemove = {
@@ -170,6 +169,7 @@ fun ShoppingCartPage(navController: NavController) {
                         coupons = coupons,
                         couponDiscount = couponDiscount
                     )
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
         }
