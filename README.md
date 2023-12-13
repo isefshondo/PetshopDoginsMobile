@@ -12,6 +12,8 @@ Dogin's é um petshop online com um design AUUdacioso 🐶💙 Nele, você pode 
   <img src="https://github.com/isefshondo/petshopDogins/assets/85968113/fd1330f7-d3eb-46e8-867f-c06fda6cd4b3" width="250" height="" alt="imagens interfaces">
 </p>
 
+<h6 align="center">(Imagens do Protótipo da Interface)</h6>
+
 ###### Descrição
 <p> O projeto consiste em um ecommerce versão mobile desenvolvido no framework Kotlin. O app permite a compra de um produto, fazendo comunicação direta com o banco de dados em MongoDb do ecommerce Web por meio de uma API em Java Spring Boot. Para o consumo da API na aplicação Kotlin foi utilizado o client do Retrofit para chamar os endpoints de comunicação. </p><br>
 
